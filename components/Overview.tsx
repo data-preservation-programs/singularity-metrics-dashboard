@@ -3,7 +3,8 @@
 
 import {useEffect, useState} from "react";
 import {Grid, Paper, Typography} from "@mui/material";
-import xbytes from 'xbytes';
+// @ts-ignore
+import xbytes from "xbytes";
 
 interface CarEntry {
     count: number
