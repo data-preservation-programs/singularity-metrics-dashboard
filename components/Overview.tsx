@@ -2,10 +2,11 @@
 
 
 import {useEffect, useState} from "react";
-import {Grid, Paper, Typography} from "@mui/material";
+import {CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import {CarRow, DealRow, Version} from "@/app/api/types";
 import {ResponsiveLine} from "@nivo/line";
 import byteSize from 'byte-size'
+import {ResponsiveBar} from "@nivo/bar";
 
 export default function Overview() {
     const [count, setCount] = useState(0)
@@ -18,9 +19,10 @@ export default function Overview() {
     const [proposed, setProposed] = useState(0)
     const [active, setActive] = useState(0)
     const [activeQap, setActiveQap] = useState(0)
-    const [clients, setClients] = useState(0)
+    const [clients, setClients] = useState<Set<string>>(new Set())
     const [dailySealed, setDailySealed] = useState<{ id: Version, data: { x: string, y: number }[] }[]>([])
     const [totalSealed, setTotalSealed] = useState<{ id: Version, data: { x: string, y: number }[] }[]>([])
+    const [monthlySealed, setMonthlySealed] = useState<{ [key: string]: string | number }[]>([])
 
     useEffect(() => {
         fetch('/api/global?type=carsGlobal').then(res => res.json()).then((cars: CarRow[]) => {
@@ -55,6 +57,7 @@ export default function Overview() {
             let activeQap = 0
             const dailySealedMap: { [key in Version]: { x: string, y: number }[] } = {"v1": [], "v2": []}
             const totalSealedMap: { [key in Version]: { x: string, y: number }[] } = {"v1": [], "v2": []}
+            const monthlySealedPerClientMap = new Map<string, {[id:string]:number}>()
             for (const deal of deals) {
                 clients.add(deal.client)
                 if (deal.state === 'active') {
@@ -62,15 +65,32 @@ export default function Overview() {
                     activeQap += deal.qap
                 }
                 proposed += deal.pieceSize
+                if (deal.date < '2022-10-01') {
+                    continue
+                }
                 dailySealedMap[deal.version].push({x: deal.date, y: deal.pieceSize})
                 totalSealedMap[deal.version].push({x: deal.date, y: deal.pieceSize + totalSealedMap[deal.version].slice(-1)[0]?.y || 0})
+                const month = deal.date.slice(0, 7)
+                if (!monthlySealedPerClientMap.has(month)) {
+                    monthlySealedPerClientMap.set(month, {})
+                }
+                const monthlySealedPerClient = monthlySealedPerClientMap.get(month)!
+                if (!monthlySealedPerClient[deal.client]) {
+                    monthlySealedPerClient[deal.client] = 0
+                }
+                monthlySealedPerClient[deal.client] += deal.pieceSize
             }
-            setClients(clients.size)
+            setClients(clients)
             setProposed(proposed)
             setActive(active)
             setActiveQap(activeQap)
             setDailySealed([{id: 'v1', data: dailySealedMap["v1"]}, {id: 'v2', data: dailySealedMap["v2"]}])
             setTotalSealed([{id: 'v1', data: totalSealedMap["v1"]}, {id: 'v2', data: totalSealedMap["v2"]}])
+            const monthlySealed: {[key: string]: string | number}[] = []
+            for (const [month, monthlySealedPerClient] of monthlySealedPerClientMap) {
+                monthlySealed.push({...monthlySealedPerClient, month})
+            }
+            setMonthlySealed(monthlySealed)
         })
     }, [])
     return (
@@ -82,7 +102,7 @@ export default function Overview() {
                             Number of CAR prepared
                         </Typography>
                         <Typography variant="h4" align={'center'}>
-                            {count.toLocaleString()}
+                            {count === 0 ? (<CircularProgress />) : count.toLocaleString()}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -92,7 +112,7 @@ export default function Overview() {
                             Number of Files prepared
                         </Typography>
                         <Typography variant="h4" align={'center'}>
-                            {numOfFiles.toLocaleString()}
+                            {numOfFiles === 0 ? (<CircularProgress />) : numOfFiles.toLocaleString()}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -102,7 +122,7 @@ export default function Overview() {
                             Total Data Size prepared
                         </Typography>
                         <Typography variant="h4" align={'center'}>
-                            {byteSize(fileSize).toString()}
+                            {fileSize === 0 ? (<CircularProgress />) : byteSize(fileSize).toString()}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -112,7 +132,7 @@ export default function Overview() {
                             Total Piece Size prepared
                         </Typography>
                         <Typography variant="h4" align={'center'}>
-                            {byteSize(pieceSize).toString()}
+                            {pieceSize === 0 ? (<CircularProgress />) : byteSize(pieceSize).toString()}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -124,7 +144,7 @@ export default function Overview() {
                             Number of Clients
                         </Typography>
                         <Typography variant="h4" align={'center'}>
-                            {clients}
+                            {clients.size === 0 ? (<CircularProgress />) : clients.size.toLocaleString()}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -134,7 +154,7 @@ export default function Overview() {
                             Deals Proposed
                         </Typography>
                         <Typography variant="h4" align={'center'}>
-                            {byteSize(proposed).toString()}
+                            {proposed === 0 ? (<CircularProgress />) : byteSize(proposed).toString()}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -144,7 +164,7 @@ export default function Overview() {
                             Deals Active
                         </Typography>
                         <Typography variant="h4" align={'center'}>
-                            {byteSize(active).toString()}
+                            {active === 0 ? (<CircularProgress />) : byteSize(active).toString()}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -154,7 +174,7 @@ export default function Overview() {
                             QAP Onboarded
                         </Typography>
                         <Typography variant="h4" align={'center'}>
-                            {byteSize(activeQap).toString()}
+                            {activeQap === 0 ? (<CircularProgress />) : byteSize(activeQap).toString()}
                         </Typography>
                     </Paper>
                 </Grid>
@@ -295,6 +315,35 @@ export default function Overview() {
                                 itemWidth: 80,
                                 itemHeight: 20,
                             }]}
+                        />
+                    </Paper>
+                </Grid>
+            </Grid>
+            <Grid container spacing={10} p={3}>
+                <Grid item md={12}>
+                    <Paper elevation={4} sx={{height: 900}}>
+                        <Typography variant="h6" align={'center'}>
+                            Monthly deals Proposed by Client
+                        </Typography>
+                        <ResponsiveBar
+                            data={monthlySealed}
+                            margin={{top: 20, right: 20, bottom: 60, left: 70}}
+                            keys={Array.from(clients.keys())}
+                            indexBy={"month"}
+                            groupMode={"stacked"}
+                            layout={"vertical"}
+                            minValue={0}
+                            valueFormat={(value: number) => byteSize(value).toString()}
+                            axisLeft={{
+                                legendPosition: 'middle',
+                                legendOffset: -40,
+                                format: (value: number) => byteSize(value).toString(),
+                            }}
+                            axisBottom={{
+                                legendPosition: 'middle',
+                                legendOffset: 40,
+                            }}
+                            labelSkipHeight={12}
                         />
                     </Paper>
                 </Grid>
