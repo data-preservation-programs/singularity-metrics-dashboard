@@ -332,6 +332,7 @@ export default function Overview() {
                             indexBy={"month"}
                             groupMode={"stacked"}
                             layout={"vertical"}
+                            colors={{scheme: 'set3'}}
                             minValue={0}
                             valueFormat={(value: number) => byteSize(value).toString()}
                             axisLeft={{
