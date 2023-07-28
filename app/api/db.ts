@@ -1,19 +1,21 @@
 import {MongoClient} from "mongodb";
 import {LRUCache} from "lru-cache";
-import {Version} from "@/app/api/types.js";
+import {CarRow, DealRow} from "@/app/api/types.js";
 
 const client = new MongoClient(process.env.MONGODB_URI!)
 
-export type GlobalCacheKey = 'carsGlobal'
+export type GlobalCacheKey = 'carsGlobal' | 'dealsGlobal'
 
 export const GlobalCacheKeyList: GlobalCacheKey[] = [
-    'carsGlobal',
+    'carsGlobal', 'dealsGlobal'
 ]
 const GlobalHandlerMap: { [key in GlobalCacheKey]: () => Promise<any> } = {
-    'carsGlobal': getCarsTimeSeries
+    'carsGlobal': getCarsTimeSeries,
+    'dealsGlobal': getDealsTimeSeries,
 }
 
 const globalCacheOptions: LRUCache.Options<GlobalCacheKey, any, unknown> = {
+    max: 1000,
     allowStale: true,
     ttl: 3600 * 1000,
     fetchMethod: async (key): Promise<any> => {
@@ -23,21 +25,7 @@ const globalCacheOptions: LRUCache.Options<GlobalCacheKey, any, unknown> = {
 }
 export const GlobalCache = new LRUCache(globalCacheOptions)
 
-const cacheOptions: LRUCache.Options<string, any, unknown> = {
-    max: 1000,
-    allowStale: true,
-    ttl: 600 * 1000,
-}
-const cache = new LRUCache(cacheOptions)
-
-async function getCarsTimeSeries(): Promise<{
-    date: string,
-    version: Version,
-    count: number,
-    fileSize: number,
-    numOfFiles: number,
-    pieceSize: number,
-}[]> {
+async function getDealsTimeSeries(): Promise<DealRow[]> {
     const query = [
         {
             $group: {
@@ -52,8 +40,71 @@ async function getCarsTimeSeries(): Promise<{
                     version: {
                         $cond: {
                             if: '$isV1',
-                            then: '1',
-                            else: '2',
+                            then: 'v1',
+                            else: 'v2',
+                        }
+                    },
+                    client: '$client',
+                    state: '$state',
+                },
+                count: {
+                    $sum: 1
+                },
+                pieceSize: {
+                    $sum: '$pieceSize'
+                },
+                qap : {
+                    $sum: {
+                        $cond: {
+                            if: '$verified',
+                            then: {
+                                $multiply: ['$pieceSize', 10]
+                            },
+                            else: '$pieceSize',
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                date: '$_id.date',
+                version: '$_id.version',
+                client: '$_id.client',
+                state: '$_id.state',
+                count: 1,
+                pieceSize: 1,
+                qap: 1,
+            }
+        }, {
+            $sort: {
+                date: 1,
+            }
+        }
+    ]
+    const documents = await client.db('singularity').collection('deals').aggregate(query).toArray()
+    console.log("Got time series for deals", documents.length)
+    return documents as any
+}
+
+async function getCarsTimeSeries(): Promise<CarRow[]> {
+    const query = [
+        {
+            $group: {
+                _id: {
+                    date: {
+                        $dateToString: {
+                            format: '%Y-%m-%d',
+                            date: '$createdAt',
+                            timezone: 'UTC',
+                        }
+                    },
+                    version: {
+                        $cond: {
+                            if: '$isV1',
+                            then: 'v1',
+                            else: 'v2',
                         }
                     }
                 },

@@ -1,11 +1,30 @@
 import {NextRequest} from "next/server";
 
-export type Version = '1' | '2'
+export type Version = 'v1' | 'v2'
 
 export interface Params {
     clients: string[]
     providers: string[]
     versions: Version[]
+}
+
+export interface CarRow {
+    count: number
+    fileSize: number
+    numOfFiles: number
+    pieceSize: number
+    date: string
+    version: Version
+}
+
+export interface DealRow {
+    date: string
+    version: Version
+    client: string
+    state: string
+    count: number,
+    pieceSize: number,
+    qap: number,
 }
 
 export function ExtractParams(request: NextRequest): Params {
