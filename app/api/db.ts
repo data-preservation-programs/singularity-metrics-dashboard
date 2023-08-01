@@ -51,16 +51,34 @@ async function getDealsTimeSeries(): Promise<DealRow[]> {
                     $sum: 1
                 },
                 pieceSize: {
-                    $sum: '$pieceSize'
-                },
-                qap : {
                     $sum: {
                         $cond: {
-                            if: '$verified',
-                            then: {
-                                $multiply: ['$pieceSize', 10]
-                            },
+                            if: {$eq: ['$pieceSize', 0]},
+                            then: 34359738368,
                             else: '$pieceSize',
+                        }
+                    }
+                },
+                qap: {
+                    $sum: {
+                        $cond: {
+                            if: {$eq: ['$pieceSize', 0]},
+                            then: {
+                                $cond: {
+                                    if: '$verified',
+                                    then: 343597383680,
+                                    else: 34359738368,
+                                }
+                            },
+                            else: {
+                                $cond: {
+                                    if: '$verified',
+                                    then: {
+                                        $multiply: ['$pieceSize', 10]
+                                    },
+                                    else: '$pieceSize',
+                                }
+                            },
                         }
                     }
                 }
