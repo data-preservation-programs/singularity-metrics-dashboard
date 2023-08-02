@@ -17,6 +17,17 @@ export interface CarRow {
     version: Version
 }
 
+export interface VerifiedClient {
+    address : string
+    addressId: string
+    name: string
+    orgName: string
+    region: string
+    website: string
+    industry: string
+    initialAllowance: string
+}
+
 export interface DealRow {
     date: string
     version: Version

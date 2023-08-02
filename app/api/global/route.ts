@@ -1,5 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
-import {getCarsTimeSeries, getDealsTimeSeries, GlobalCacheKey} from "@/app/api/db";
+import {getCarsTimeSeries, getDealsTimeSeries, getVerifiedClients, GlobalCacheKey} from "@/app/api/db";
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
     console.log(request.url)
@@ -12,6 +12,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     if (type === "dealsGlobal") {
         const timeSeries = await getDealsTimeSeries()
         return NextResponse.json(timeSeries)
+    }
+
+    if (type === "verifiedClients") {
+        const data = await getVerifiedClients()
+        return NextResponse.json(data)
     }
 
     return NextResponse.json("invalid type", {
