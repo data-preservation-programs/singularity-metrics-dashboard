@@ -494,8 +494,8 @@ export default function Overview() {
                                 }
                                 return <div style={{padding:12, color: data.color, background: '#444444'}}>
                                     <strong>{client.name}{client.orgName}</strong>
-                                    <br/>
-                                    <span>{data.formattedValue}</span>
+                                    <h2>{data.formattedValue}</h2>
+                                    <span>Address: {client.addressId} ({client.address})</span>
                                     {client.region === "" ? "" : (<><br/><span>Region: {client.region}</span></>)}
                                     {client.industry === "" ? "" : (<><br/><span>Industry: {client.industry}</span></>)}
                                     {client.website === "" ? "" : (<><br/><span>Website: {client.website}</span></>)}
