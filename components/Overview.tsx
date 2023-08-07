@@ -44,6 +44,12 @@ function toAccumulative(daily: Map<any, Map<string, number>>): Map<any, Map<stri
     return out;
 }
 
+interface MonthlySealed {
+    barData: { [key: string]: string | number }[] // i.e. {month:'2020-01', 'orgA': 100, 'orgB': 200}
+    details: Map<string, [VerifiedClient, number][]> // i.e. {'2020-01#orgA': [[clientA, 100], [clientB, 200]]}
+    keys: string[] //i.e. orgA, orgB
+}
+
 export default function Overview() {
     const [count, setCount] = useState(0)
     const [fileSize, setFileSize] = useState(0)
@@ -60,8 +66,11 @@ export default function Overview() {
     const [totalSealed, setTotalSealed] = useState<{ id: Version, data: { x: string, y: number }[] }[]>([])
     const [dailyDeal, setDailyDeal] = useState<{ id: string, data: { x: string, y: number }[] }[]>([])
     const [totalDeal, setTotalDeal] = useState<{ id: string, data: { x: string, y: number }[] }[]>([])
-    const [monthlySealed, setMonthlySealed] = useState<{ [key: string]: string | number }[]>([])
-    const [verifiedClientsMap, setVerifiedClientsMap] = useState<Map<string, VerifiedClient>>(new Map())
+    const [monthlySealed, setMonthlySealed] = useState<MonthlySealed>({
+        barData: [],
+        details: new Map(),
+        keys: []
+    })
 
     useEffect(() => {
         fetch('/api/global?type=carsGlobal').then(res => res.json()).then((cars: CarRow[]) => {
@@ -139,11 +148,60 @@ export default function Overview() {
                     verifiedClientsMap.set(client.address, client)
                     verifiedClientsMap.set(client.addressId, client)
                 }
-                setVerifiedClientsMap(verifiedClientsMap)
 
-                const monthlySealed: {[key: string]: string | number}[] = []
+                const orgNames = new Set<string>()
+                const barData = new Map<string, Map<string, number>>
+                const details = new Map<string, [VerifiedClient, number][]>()
                 for (const [month, monthlySealedPerClient] of monthlySealedPerClientMap) {
-                    monthlySealed.push({...monthlySealedPerClient, month})
+                    barData.has(month) || barData.set(month, new Map())
+                    for (const [client, pieceSize] of Object.entries(monthlySealedPerClient)) {
+                        let name = 'Others'
+                        let verifiedClient: VerifiedClient = {
+                            address: client,
+                            addressId: client,
+                            name: "Unknown",
+                            orgName: "Unknown",
+                            auditTrail: "",
+                            industry: "",
+                            region: "",
+                            website: "",
+                            initialAllowance: "",
+                        }
+                        if (verifiedClientsMap.has(client)) {
+                            name = verifiedClientsMap.get(client)!.name === "" ? verifiedClientsMap.get(client)!.orgName : verifiedClientsMap.get(client)!.name
+                            const split = name.split(' ')
+                            if (split.length > 1) {
+                                if (split[0].length > 10) {
+                                    name = split[0]
+                                } else {
+                                    name = split[0] + ' ' + split[1]
+                                }
+                            }
+                            verifiedClient = verifiedClientsMap.get(client)!
+                        }
+                        orgNames.add(name)
+                        barData.get(month)!.has(name) || barData.get(month)!.set(name, 0)
+                        barData.get(month)!.set(name, barData.get(month)!.get(name)! + pieceSize)
+                        details.has(month + '#' + name) || details.set(month + '#' + name, [])
+                        const index = details.get(month + '#' + name)!.findIndex(([vc, _]) => vc.address === verifiedClient.address)
+                        if (index === -1) {
+                            details.get(month + '#' + name)!.push([verifiedClient, pieceSize])
+                        } else {
+                            details.get(month + '#' + name)![index][1] += pieceSize
+                        }
+                    }
+                }
+                const monthlySealedBarData: { [key: string]: string | number }[] = []
+                for (const [month, clientMap] of barData) {
+                    monthlySealedBarData.push({
+                        month: month,
+                        ...Object.fromEntries(clientMap)
+                    })
+                }
+                const monthlySealed: MonthlySealed = {
+                    barData: monthlySealedBarData,
+                    details: details,
+                    keys: Array.from(orgNames.keys())
                 }
                 setMonthlySealed(monthlySealed)
             })
@@ -451,9 +509,9 @@ export default function Overview() {
                             Monthly deals Sealed by Client
                         </Typography>
                         <ResponsiveBar
-                            data={monthlySealed}
+                            data={monthlySealed.barData}
                             margin={{top: 20, right: 20, bottom: 60, left: 70}}
-                            keys={Array.from(clients.keys())}
+                            keys={monthlySealed.keys}
                             indexBy={"month"}
                             groupMode={"stacked"}
                             layout={"vertical"}
@@ -471,34 +529,26 @@ export default function Overview() {
                             }}
                             labelSkipHeight={12}
                             label={data => {
-                                const client = verifiedClientsMap.get(data.id as string)
-                                if (client === undefined) {
-                                    return data.id as string
-                                }
-                                const value = client.orgName !== "" ? client.orgName : client.name
-                                const split = value.split(" ")
-                                if (split.length <= 1) {
-                                    return value
-                                }
-                                if (split[0].length > 10) {
-                                    return split[0]
-                                }
-                                return split[0] + " " + split[1]
+                                return data.id as string
                             }}
                             tooltip={data => {
-                                const client = verifiedClientsMap.get(data.id as string)
-                                if (client === undefined) {
-                                    return <div style={{padding:12, color: data.color, background: '#444444'}}>
-                                        <strong>{data.id}: {data.formattedValue}</strong>
-                                    </div>
-                                }
+                                const name = data.id
+                                const month = data.indexValue
+                                const detail: [VerifiedClient, number][] = monthlySealed.details.get(month + '#' + name)!
                                 return <div style={{padding:12, color: data.color, background: '#444444'}}>
-                                    <strong>{client.name}{client.orgName}</strong>
-                                    <h2>{data.formattedValue}</h2>
-                                    <span>Address: {client.addressId} ({client.address})</span>
-                                    {client.region === "" ? "" : (<><br/><span>Region: {client.region}</span></>)}
-                                    {client.industry === "" ? "" : (<><br/><span>Industry: {client.industry}</span></>)}
-                                    {client.website === "" ? "" : (<><br/><span>Website: {client.website}</span></>)}
+                                    <h3>{name}: {data.formattedValue}</h3>
+                                    {detail.map(([client, value]) => {
+                                        return (
+                                            <>
+                                                <br/><br/><strong>{client.addressId} - {client.address}</strong>
+                                                <br/><strong>{byteSize(value).toString()}</strong>
+                                                {client.region === "" ? "" : (<><br/><span>Region: {client.region}</span></>)}
+                                                {client.industry === "" ? "" : (<><br/><span>Industry: {client.industry}</span></>)}
+                                                {client.website === "" ? "" : (<><br/><span>Website: {client.website}</span></>)}
+                                                {!client.auditTrail.includes('https://') ? "" : (<><br/><span>Issue: {client.auditTrail.split('/').slice(-1)[0]}</span></>)}
+                                            </>
+                                        )
+                                    })}
                                 </div>
                             }}
                         />

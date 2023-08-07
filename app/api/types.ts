@@ -26,6 +26,7 @@ export interface VerifiedClient {
     website: string
     industry: string
     initialAllowance: string
+    auditTrail: string
 }
 
 export interface DealRow {
