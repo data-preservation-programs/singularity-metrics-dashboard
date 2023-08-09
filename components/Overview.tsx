@@ -2,7 +2,16 @@
 
 
 import {useEffect, useState} from "react";
-import {CircularProgress, Grid, Paper, Typography} from "@mui/material";
+import {
+    CircularProgress,
+    FormControl,
+    FormControlLabel,
+    FormLabel,
+    Grid,
+    Paper, Radio,
+    RadioGroup,
+    Typography
+} from "@mui/material";
 import {CarRow, DealRow, VerifiedClient, Version} from "@/app/api/types";
 import {ResponsiveLine} from "@nivo/line";
 import byteSize from 'byte-size'
@@ -71,6 +80,7 @@ export default function Overview() {
         details: new Map(),
         keys: []
     })
+    const [selectedClient, setSelectedClient] = useState<string>('All')
 
     useEffect(() => {
         fetch('/api/global?type=carsGlobal').then(res => res.json()).then((cars: CarRow[]) => {
@@ -204,6 +214,7 @@ export default function Overview() {
                     keys: Array.from(orgNames.keys())
                 }
                 setMonthlySealed(monthlySealed)
+                console.log(monthlySealed)
             })
     }, [])
     return (
@@ -504,6 +515,21 @@ export default function Overview() {
             </Grid>
             <Grid container spacing={10} p={3}>
                 <Grid item md={12}>
+                    <FormControl>
+                        <FormLabel>
+                            Choose a client
+                        </FormLabel>
+                        <RadioGroup row defaultValue={selectedClient} onChange={(event) => {setSelectedClient(event.target.value as string)}}>
+                            <FormControlLabel value={"All"} control={<Radio/>} label={"All"}/>
+                            {
+                                monthlySealed.keys.map((key: string) => {
+                                    return <FormControlLabel key={key} value={key} control={<Radio/>} label={key}/>
+                                })
+                            }
+                        </RadioGroup>
+                    </FormControl>
+                </Grid>
+                <Grid item md={12}>
                     <Paper elevation={4} sx={{height: 900}}>
                         <Typography variant="h6" align={'center'}>
                             Monthly deals Sealed by Client
@@ -511,7 +537,7 @@ export default function Overview() {
                         <ResponsiveBar
                             data={monthlySealed.barData}
                             margin={{top: 20, right: 20, bottom: 60, left: 70}}
-                            keys={monthlySealed.keys}
+                            keys={selectedClient === 'All' ? monthlySealed.keys : [selectedClient]}
                             indexBy={"month"}
                             groupMode={"stacked"}
                             layout={"vertical"}
