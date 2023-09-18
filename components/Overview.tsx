@@ -83,7 +83,8 @@ export default function Overview() {
     const [selectedClient, setSelectedClient] = useState<string>('All')
 
     useEffect(() => {
-        fetch('/api/global?type=carsGlobal').then(res => res.json()).then((cars: CarRow[]) => {
+        fetch('/mock/carsGlobal.json').then(res => res.json()).then((cars: CarRow[]) => {
+        // fetch('/api/global?type=carsGlobal').then(res => res.json()).then((cars: CarRow[]) => {
             let count = 0
             let fileSize = 0
             let numOfFiles = 0
@@ -111,7 +112,8 @@ export default function Overview() {
     }, [])
 
     useEffect(() => {
-        Promise.all([fetch('/api/global?type=dealsGlobal'), fetch('/api/global?type=verifiedClients')])
+        Promise.all([fetch('/mock/dealsGlobal.json'), fetch('/mock/verifiedClients.json')])
+        // Promise.all([fetch('/api/global?type=dealsGlobal'), fetch('/api/global?type=verifiedClients')])
             .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
             .then(([deals, verifiedClients] : [DealRow[], VerifiedClient[]]) => {
                 const clients = new Set<string>()
