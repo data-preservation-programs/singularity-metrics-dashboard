@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { CarRow, DealRow, VerifiedClient, Version } from "@/app/api/types";
 import { ResponsiveLine } from "@nivo/line";
@@ -10,6 +8,8 @@ import Loader from "@/components/loader";
 import ReactECharts from "echarts-for-react";
 import { mapToArray, toAccumulative } from "@/utils/utils";
 import MonthlySealed from "@utils/interfaces";
+import BigNumbers from "@/components/big-numbers";
+import DataPreparedChart from "@/components/data-prepared-chart";
 
 export default function Overview() {
   const [count, setCount] = useState(0);
@@ -272,103 +272,15 @@ export default function Overview() {
     },
   ];
 
-  return (
-    <div>
-      <div className="grid">
-        <div className="col-12">
-          <h2>Overview</h2>
-        </div>
-      </div>
-      <div className="grid">
-        {overviewData.map((data, index) => (
-          <div className="col-3_md-6_mi-12 card-wrapper" key={index}>
-            <div className="card type__horizontal">
-              <div className="content">
-                <h3>{data.value}</h3>
-                <h4>{data.label}</h4>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+  console.log(totalPrepared)
 
-      <h2>Daily Data Prepared</h2>
-      <div style={{ height: "600px" }}>
-        <ResponsiveLine
-          data={dailyPrepared}
-          margin={{ top: 20, right: 20, bottom: 60, left: 70 }}
-          curve={"monotoneX"}
-          enableSlices={"x"}
-          yScale={{
-            type: "linear",
-            min: 0,
-            max: "auto",
-            nice: true,
-            stacked: true,
-          }}
-          axisLeft={{
-            legendPosition: "middle",
-            legendOffset: -40,
-            format: (value: number) => byteSize(value).toString(),
-          }}
-          enableArea={true}
-          yFormat={(value: any) => byteSize(value).toString()}
-          xScale={{ type: "time", format: "%Y-%m-%d", useUTC: true }}
-          axisBottom={{
-            format: "%Y-%m-%d",
-            legendPosition: "middle",
-            legendOffset: 40,
-          }}
-          legends={[
-            {
-              anchor: "top-left",
-              direction: "column",
-              translateX: 20,
-              itemWidth: 80,
-              itemHeight: 20,
-            },
-          ]}
-        />
-      </div>
+  return (<>
+    <BigNumbers overviewData={overviewData} />
 
-      <h2>Total Data Prepared</h2>
-      <div style={{ height: "600px" }}>
-        <ResponsiveLine
-          data={totalPrepared}
-          margin={{ top: 20, right: 20, bottom: 60, left: 70 }}
-          curve={"monotoneX"}
-          enableSlices={"x"}
-          yScale={{
-            type: "linear",
-            min: 0,
-            max: "auto",
-            nice: true,
-            stacked: true,
-          }}
-          axisLeft={{
-            legendPosition: "middle",
-            legendOffset: -40,
-            format: (value: number) => byteSize(value).toString(),
-          }}
-          enableArea={true}
-          yFormat={(value: any) => byteSize(value).toString()}
-          xScale={{ type: "time", format: "%Y-%m-%d", useUTC: true }}
-          axisBottom={{
-            format: "%Y-%m-%d",
-            legendPosition: "middle",
-            legendOffset: 40,
-          }}
-          legends={[
-            {
-              anchor: "top-left",
-              direction: "column",
-              translateX: 20,
-              itemWidth: 80,
-              itemHeight: 20,
-            },
-          ]}
-        />
-      </div>
+    <div className="grid">
+      {dailyPrepared ? <DataPreparedChart title="Daily Data Prepared" data={dailyPrepared} /> : null }
+      {totalPrepared ? <DataPreparedChart title="Total Data Prepared" data={totalPrepared} /> : null }
+    </div>
 
       <h2>Daily Deal Sealed</h2>
       <div style={{ height: "600px" }}>
@@ -640,6 +552,6 @@ export default function Overview() {
           }}
         />
       </div>
-    </div>
+    </>
   );
 }
