@@ -1,21 +1,17 @@
 'use client'
-import {useState} from "react";
-import {ViewType} from "@/components/types";
-import {Box} from "@mui/material";
-import Dashboard from "@/components/Dashboard";
+
+import Header from "@/components/header";
+import Overview from "@/components/overview";
+import OverviewOld from "@/components/overview-old";
+
+import '@styles/settings.scss';
 
 export default function Page() {
-  const drawerWidth = 200;
-  const [view, setView] = useState<ViewType>('overview')
   return (
     <main>
-      <Box>
-        <Box sx={{marginLeft: `${drawerWidth}px`}}>
-          <Dashboard
-              view={view}
-          />
-        </Box>
-      </Box>
+      <Header />
+      <Overview />
+      {/* <OverviewOld /> */}
     </main>
   )
 }

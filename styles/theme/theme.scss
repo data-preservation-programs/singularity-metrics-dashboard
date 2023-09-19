@@ -1,0 +1,47 @@
+//////////////////////////////////////////////////////////////////////// General
+// -----------------------------------------------------------------------------
+/*
+ * fonts, text and background colours are applied here
+ * see utilities.scss to edit these vars
+ */
+body {
+  @include selection-light;
+  color: var(--primary-text-color);
+  font-family: $fontSuisseIntl;
+  background-color: var(--background-color);
+  transition: background-color 250ms;
+}
+
+pre,
+code {
+  font-family: $fontSuisseIntlMono;
+}
+
+ a {
+  @include b2;
+  color: $chardonnay;
+  @include transitionDefault;
+  &:hover {
+    color: $alto;
+  }
+}
+
+///////////////////////////////////////////////////////////////////// Components
+// -----------------------------------------------------------------------------
+/*
+ * Some existing component styles can be editted and imported from the adjacent
+ * components directory. Custom files can be added and imported here too.
+ */
+.magnify-onhover {
+  transition: 250ms ease-out;
+  &:hover {
+    transition: 250ms ease-in;
+    transform: scale(1.05);
+  }
+}
+
+@import 'components/chevron';
+@import 'components/markdown';
+@import 'components/toast';
+@import 'components/tooltip';
+@import 'components/video-wrapper';

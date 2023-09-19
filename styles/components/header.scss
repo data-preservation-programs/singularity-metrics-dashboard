@@ -1,0 +1,142 @@
+.site-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 0 2rem;
+}
+
+.main-content {
+  position: relative;
+  @include medium {
+    margin: 0 -1rem;
+  }
+  @include small {
+    margin: 0;
+  }
+}
+
+.logo {
+  display: flex;
+  width: fit-content;
+  transition: 250ms ease;
+  padding-top: 0.5rem;
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.08);
+  }
+  &:focus-visible {
+    @include focusOutline;
+  }
+  @include medium {
+    transform: translateX(-1rem);
+    &:hover,
+    &:focus-visible {
+      transform: translateX(-1rem) scale(1.08);
+    }
+  }
+  @include small {
+    transform: none;
+    &:hover,
+    &:focus-visible {
+      transform: scale(1.08);
+    }
+  }
+}
+
+.nav-items {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.desktop {
+  flex-grow: 1;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  &.mobile {
+    .navigation {
+      flex-direction: column;
+    }
+    .nav-item {
+      justify-content: center;
+      &:not(:last-child) {
+        margin-bottom: toRem(40);
+      }
+    }
+    .nav-link {
+      background: linear-gradient(135deg, rgba(166,200,136,1) 0%, rgba(212,212,212,1) 33%, rgba(211,211,211,1) 66%, rgba(211,211,211,1) 100%);
+      @include gradientTextBase;
+      background-size: 300%;
+      background-position: 50% 0;
+      &:active,
+      &:hover {
+        background-position: 0% 0;
+        transform: none;
+        &:before,
+        &:after {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.navigation {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+  padding-left: toRem(45);
+  @include transitionDefault;
+  &:focus-within {
+    @include focusOutline;
+  }
+}
+
+.nav-link {
+  @include navButton;
+  @include transitionDefault;
+  position: relative;
+  padding: 0.25rem 0.5rem;
+  transform: translateY(0);
+  &:before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: toRem(17);
+  }
+  &:after {
+    content: '';
+    position: absolute;
+    top: calc(100% + 5px);
+    left: calc(50% - 0.25rem);
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: $chardonnay;
+    opacity: 0;
+    transition: inherit;
+  }
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-1.125rem);
+    &:before {
+      height: toRem(30);
+    }
+    &:after {
+      opacity: 1;
+    }
+  }
+}

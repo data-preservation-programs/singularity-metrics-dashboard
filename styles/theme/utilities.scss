@@ -1,0 +1,259 @@
+/**
+ * This file should NOT contain any styling (classes or IDs). It should only contain
+ * variables, functions, mixins, etc. If you want to override core utility functions
+ * or mixins, you can do it here by including the entity with the same name.
+ */
+
+// /////////////////////////////////////////////////////////////////// Variables
+// -----------------------------------------------------------------------------
+// ===================================================================== General
+/*
+ * General layout spacing settings
+ */
+$siteHeaderHeight: toRem(78);
+
+// ===================================================================== Colours
+
+/*
+ * Color variables used in light and dark mode global css variables.
+ * The variables names should be replaced with color names in addition to
+ * updating their values. New variable names should replace those in variable
+ * declarations below.
+ */
+
+$gray50: #FAFAFA;
+$gray100: #F5F5F5;
+$gray200: #EEEEEE;
+$gray300: #E0E0E0;
+$gray400: #BDBDBD;
+$gray500: #9E9E9E;
+$gray600: #757575;
+$gray700: #616161;
+$gray800: #424242;
+$gray900: #212121;
+
+$green: #A7C889;
+$codGray: #060606; // black
+$sageGreen: #CBDDBB; // light soft green
+$alto: #D3D3D3; // light gray
+$burntSienna: #E8655D; // red
+$chardonnay: #FFC582; // peachy orange
+$codeBlack: #191919; // black
+$tundora: #414141; // gray
+$eastSide: #BC8AC3; // lavender purple
+$siam: #565D50; // siam
+
+// ====================================================================== Themes
+:root {
+  --brand-color: #{$sageGreen};
+  --background-color: #{$codGray};
+  --secondary-background-color: #{$codeBlack};
+  --primary-text-color: #{$alto};
+  --secondary-text-color: #{$chardonnay};
+  --link-color: #{$chardonnay};
+  --link-hover-color: #{$chardonnay};
+  --code-text-color: #{$alto};
+  --code-background-color: #{$codeBlack};
+  --error: #{$burntSienna};
+}
+
+// .dark {
+//   --background-color: #{$codGray};
+//   --secondary-background-color: #{$mineShaft};
+//   --primary-text-color: #{$wildSand};
+//   --secondary-text-color: #{$wildSand};
+//   --sidebar-text-color: #{$wildSand};
+//   --link-color: #{$dodgerBlue};
+//   --link-hover-color: #{$bayOfMany};
+//   --code-text-color: #{$portage};
+//   --code-background-color: #{$mineShaft};
+//   --divider: #{$mineShaft};
+// }
+
+// ===================================================================== Styling
+
+/*
+ * General use box shadow and focus ring styling.
+ */
+
+@mixin shadow1 {
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+@mixin shadow2 {
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.85);
+}
+
+@mixin focusBoxShadow {
+  box-shadow: 0 0 0 4px rgba(255, 197, 130, 0.7);
+}
+
+@mixin focusBoxShadowSmall {
+  box-shadow: 0 0 0 3px rgba(255, 197, 130, 0.5);
+}
+
+@mixin focusOutline {
+  outline: 4px solid rgba(255, 197, 130, 0.7);
+  outline-offset: 4px;
+  border-radius: toRem(2);
+}
+
+@mixin focusBoxShadowLink {
+  box-shadow: 0 0 0 5px rgba(255, 197, 130, 0.5);
+  border-radius: 0.125rem;
+}
+
+@mixin transitionDefault {
+  transition: 200ms cubic-bezier(0.33, 0.2, 0.41, 0.99);
+}
+
+@mixin tooltipMobilePosition {
+  &:hover {
+    &:before,
+    &:after {
+      transform: translate(0, 0);
+    }
+  }
+  &:before,
+  &:after {
+    transform: translate(0, 0.5rem);
+  }
+  &:before {
+    left: 1rem;
+  }
+  &:after {
+    left: 0.5rem;
+  }
+  &[data-tooltip-mobile-position="right"] {
+    &:before,
+    &:after {
+      left: auto;
+    }
+    &:before {
+      right: 1rem;
+    }
+    &:after {
+      right: 0.5rem;
+    }
+  }
+}
+
+// ------------------------------------------------------------------- Gradients
+@mixin sageWhiteGradient_Basic {
+  background: linear-gradient(278deg, $alto 10.02%, $sageGreen 86.99%);
+}
+
+@mixin sageWhiteGradient_LeftRight {
+  background: linear-gradient(90deg, rgba($sageGreen, 1) 0%, rgba($sageGreen, 0.5) 33%, rgba($gray900, 0.3) 66%, rgba($gray900, 0.8) 100%);
+}
+
+@mixin sageWhiteGradient_RightLeft {
+  background: linear-gradient(270deg, rgba($sageGreen, 1) 0%, rgba($sageGreen, 0.5) 33%, rgba($gray900, 0.3) 66%, rgba($gray900, 0.8) 100%);
+}
+
+@mixin sageWhiteGradient_BottomRight {
+  background: linear-gradient(315deg, rgba($sageGreen, 1) 0%, rgba($sageGreen, 0.5) 33%, rgba($gray900, 0.3) 66%, rgba($gray900, 0.8) 100%);
+}
+
+@mixin sageWhiteGradient_BottomLeft {
+  background: linear-gradient(45deg, rgba($sageGreen, 1) 0%, rgba($sageGreen, 0.5) 33%, rgba($gray900, 0.3) 66%, rgba($gray900, 0.8) 100%);
+}
+
+@mixin sageWhiteGradient_TopRight {
+  background: linear-gradient(225deg, rgba($sageGreen, 1) 0%, rgba($sageGreen, 0.5) 33%, rgba($gray900, 0.3) 66%, rgba($gray900, 0.8) 100%);
+}
+
+@mixin sageWhiteGradient_TopLeft {
+  background: linear-gradient(135deg, rgba($sageGreen, 1) 0%, rgba($sageGreen, 0.5) 33%, rgba($gray900, 0.3) 66%, rgba($gray900, 0.8) 100%);
+}
+
+@mixin gradientBorder ($angle) {
+  &:after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: toRem(5);
+    padding: toRem(1);
+    z-index: 1;
+    background: linear-gradient($angle, rgba($sageGreen, 1) 0%, rgba($sageGreen, 0.5) 33%, rgba($gray900, 0.3) 66%, rgba($gray900, 0.8) 100%);
+    -webkit-mask:
+       linear-gradient(#fff 0 0) content-box,
+       linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+  }
+}
+
+@mixin blurredBackdrop {
+  &:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: toRem(5);
+    background-color: rgba($tundora, 0.2);
+    backdrop-filter: blur(5px);
+    z-index: 1;
+  }
+}
+
+@mixin cardPanel ($gradientAngle) {
+  position: relative;
+  @include shadow2;
+  @include blurredBackdrop;
+  @include gradientBorder($gradientAngle);
+}
+
+@mixin selection-dark {
+  ::-moz-selection { background: $sageGreen; color: $codGray; }
+  ::selection { background: $sageGreen; color: $codGray; }
+}
+
+@mixin selection-light {
+  ::-moz-selection { background: $sageGreen; color: $codGray; }
+  ::selection { background: $sageGreen; color: $codGray; }
+}
+
+@mixin gradientText {
+  background: linear-gradient(278deg, #D4D4D4 10.02%, #A6C888 86.99%);
+  background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  text-fill-color: transparent;
+  // IE11 fix
+  @include IE10and11 {
+    background: none;
+  }
+  &::-moz-selection {
+    -webkit-text-fill-color: $codGray;
+    -moz-text-fill-color: $codGray;
+    text-fill-color: $codGray;
+  }
+  &::selection {
+    -webkit-text-fill-color: $codGray;
+    -moz-text-fill-color: $codGray;
+    text-fill-color: $codGray;
+  }
+}
+
+@mixin gradientTextBase {
+  background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  text-fill-color: transparent;
+  // IE11 fix
+  @include IE10and11 {
+    background: none;
+  }
+  &::-moz-selection {
+    -webkit-text-fill-color: $codGray;
+    -moz-text-fill-color: $codGray;
+    text-fill-color: $codGray;
+  }
+  &::selection {
+    -webkit-text-fill-color: $codGray;
+    -moz-text-fill-color: $codGray;
+    text-fill-color: $codGray;
+  }
+}

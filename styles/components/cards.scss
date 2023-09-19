@@ -1,0 +1,12 @@
+.card.type__horizontal {
+  --border-gradient-angle: 0deg;
+  @include cardPanel(var(--border-gradient-angle));
+}
+
+.card.type__horizontal {
+  padding: toRem(20) toRem(20);
+  .content {
+    position: relative;
+    z-index: 2;
+  }
+}

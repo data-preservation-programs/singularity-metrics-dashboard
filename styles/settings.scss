@@ -1,0 +1,32 @@
+/**
+ * This file should NOT contain any styling (classes or IDs). It is responsible
+ * for importing global variables, functions, mixins, etc. It should only contain
+ * imports and overriding variables (settings).
+ *
+ * This file is imported in:
+ *    nuxt.config → vite.css.preprocessorOptions.scss.additionalData
+ */
+
+@use 'sass:math';
+
+/////////////////////////////////////////////////////////////////////// Settings
+// -----------------------------------------------------------------------------
+/**
+ * Never remove any of the below settings, only ever update their values
+ * project-to-project.
+ */
+
+$gridWidth: 79.125rem;
+$halfGridWidth: 39.5625rem;
+$standardGutter: 0.75rem;
+$baseFontSize: 16;
+$baseLeading: 1.2;
+$baseLetterSpacing: 0px;
+
+//////////////////////////////////////////////////////////////////////// Imports
+// -----------------------------------------------------------------------------
+@import 'core/utilities';
+@import 'theme/utilities';
+@import 'theme/typography';
+
+@import 'main';

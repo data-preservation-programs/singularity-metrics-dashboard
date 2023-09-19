@@ -1,0 +1,343 @@
+// ////////////////////////////////////////////////////////////////// Typography
+// -----------------------------------------------------------------------------
+/*
+ * Variables specifying the font family declaration ($fontPrimary) and the
+ * location of the source font files ($fontAssetPath)
+ */
+
+$fontSuisseIntl: 'SuisseIntl', sans-serif, monospace;
+$fontSuisseIntlMono: 'SuisseIntlMono', sans-serif, monospace;
+$fontAssetPath: '/fonts';
+
+// -------------------------------------------------------- Suisse International
+@font-face {
+  font-family: 'SuisseIntl';
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SuisseIntl';
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'SuisseIntl';
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-RegularItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'SuisseIntl';
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: bold;
+}
+
+@font-face {
+  font-family: 'SuisseIntl';
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-MediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'SuisseIntl';
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-SemiBold.otf') format('opentype');
+  font-weight: 600;
+  font-style: bold;
+}
+
+@font-face {
+  font-family: 'SuisseIntl';
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: bold;
+}
+
+// --------------------------------------------------- Suisse International Mono
+@font-face {
+  font-family: 'SuisseIntlMono';
+  src: url('#{$fontAssetPath}/suisse-intl-mono/SuisseIntlMono-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+// ///////////////////////////////////////////////////////// Basic Styles Mixins
+// -----------------------------------------------------------------------------
+
+/*
+ * Mixins corresponding to most commonly used html text elements:
+ */
+
+// Titles
+@mixin h1 {
+  font-size: toRem(48);
+  line-height: leading(65, 48);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  @include medium {
+    font-size: toRem(36);
+    line-height: leading(48, 36);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+  @include mini {
+    font-size: toRem(30);
+    line-height: leading(43, 30);
+  }
+}
+
+@mixin h2 {
+  font-size: toRem(24);
+  line-height: leading(70, 24);
+  font-weight: 500;
+  letter-spacing: 0.72px;
+  @include gradientText;
+  display: inline-block;
+  // @include medium {
+  //   font-size: toRem(20);
+  //   line-height: leading(30, 20);
+  //   font-weight: 500;
+  //   letter-spacing: 0.03em;
+  // }
+}
+
+@mixin h3 {
+  font-size: toRem(35);
+  line-height: leading(40, 35);
+  font-weight: 500;
+  letter-spacing: 1.05px;
+  @include gradientText;
+  display: inline-block;
+  // @include medium {
+  //   font-size: toRem(18);
+  //   line-height: leading(27, 18);
+  //   font-weight: 500;
+  //   letter-spacing: 0.03em;
+  // }
+  // @include mini {
+  //   font-size: toRem(16);
+  //   line-height: leading(27, 16);
+  // }
+}
+
+@mixin h4 {
+  font-size: toRem(14);
+  line-height: leading(27, 14);
+  font-weight: 500;
+  letter-spacing: 0.14px;
+  color: $green;
+  // @include medium {
+  //   font-size: toRem(14);
+  //   line-height: leading(16, 14);
+  //   font-weight: 500;
+  //   letter-spacing: 0.03em;
+  // }
+}
+
+@mixin h5 {
+  font-size: toRem(16);
+  line-height: leading(19, 16);
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  // @include medium {
+  //   font-size: toRem(14);
+  //   line-height: leading(16, 14);
+  //   font-weight: 500;
+  //   letter-spacing: 0.11em;
+  // }
+}
+
+// Paragraph Text
+@mixin p1 {
+  font-size: toRem(18);
+  line-height: leading(27, 18);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  @include small {
+    font-size: toRem(14);
+    line-height: leading(21, 14);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+}
+
+@mixin p2 { // Card text
+  font-size: toRem(16);
+  line-height: leading(27, 16);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  @include small {
+    font-size: toRem(12);
+    line-height: leading(21, 12);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+}
+
+ // UI Elements
+@mixin b1 { // Primary CTAs
+  font-size: toRem(18);
+  line-height: leading(21, 18);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  @include small {
+    font-size: toRem(14);
+    line-height: leading(26, 14);
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+}
+
+@mixin b2 { // Secondary button styles
+  font-size: toRem(16);
+  line-height: leading(24, 16);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  @include small {
+    font-size: toRem(14);
+    line-height: leading(21, 14);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+}
+
+@mixin navButton {
+  font-size: toRem(16);
+  line-height: leading(27, 16);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  @include medium {
+    font-size: toRem(14);
+    line-height: leading(21, 14);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+}
+
+@mixin inlineCode {
+  font-family: $fontSuisseIntlMono;
+  // color: var(--code-text-color);
+  // background-color: var(--code-background-color);
+  // padding: 0.12rem 0.45rem;
+  // border-radius: toRem(4);
+  font-size: toRem(14);
+  line-height: leading(27, 18);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  @include small {
+    font-size: toRem(14);
+    line-height: leading(27, 14);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+}
+
+@mixin disclaimerText {
+  font-size: toRem(14);
+  line-height: leading(21, 14);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+@mixin footerButton {
+  font-size: toRem(14);
+  line-height: leading(27, 14);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  @include tiny {
+    font-size: toRem(12);
+    line-height: leading(27, 12);
+  }
+}
+
+@mixin formFieldPlaceholder {
+  font-size: toRem(16);
+  line-height: leading(27, 16);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+@mixin formFieldText {
+  font-size: toRem(16);
+  line-height: leading(27, 16);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+@mixin formFieldErrorMessage {
+  font-size: toRem(14);
+  line-height: leading(21, 14);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+@mixin hamburgerCTA {
+  font-size: toRem(24);
+  line-height: leading(36, 24);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+// ////////////////////////////////////////////////////////////////////// Sizing
+// -----------------------------------------------------------------------------
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  display: block;
+  text-transform: none;
+}
+
+h1, .h1 {
+  @include h1;
+}
+
+h2, .h2 {
+  @include h2;
+}
+
+h3, .h3 {
+  @include h3;
+}
+
+h4, .h4 {
+  @include h4;
+}
+
+h5, .h5 {
+  @include h5;
+}
+
+h6, .h6 {
+  @include h5;
+}
+
+p,
+.p1,
+div,
+a,
+button {
+  @include p1;
+}
+
+:not(pre) > code {
+  @include inlineCode;
+}
