@@ -1,34 +1,31 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This repo contains a frontend dashboard for metrics on Singularity.
 
-## Getting Started
+## Stack
 
-First, run the development server:
+- This is a [Next js](https://nextjs.org/) project made in Typescript
+- A serverless function facilitates communication with the database
+- Both the site and the serverless functiona are deployed via Vercel
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Local development
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- After cloning the repo, you'll need to create a `.env` file with the Mongo connection string `MONGODB_URI=mongodb+srv://.../?readPreference=secondaryPreferred`
+- After that, install dependencies: `npm ci`
+- And finally, run the app in dev mode `npm run dev`
+- Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Currently this project is deployed on the [Vercel Platform](https://vercel.com/new). This handles the following functionality:
 
-## Learn More
+- Deployment, including shipping to production
+- Build previews
+- Serverless functions
 
-To learn more about Next.js, take a look at the following resources:
+To deploy to production or via CI:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Run `npm ci && npm run build`
+- Serve the `/out` directory, which will contain the static frontend
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Production deployment happens automatically as long as builds pass and production PRs are made against the `main` branch.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
