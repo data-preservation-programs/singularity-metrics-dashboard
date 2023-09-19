@@ -7,13 +7,14 @@ import moment from 'moment';
 
 const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
   const [selectedClient, setSelectedClient] = useState("All");
+  const [selectedDateFilter, setSelectedDateFilter] = useState("All");
   const [chartOptions, setChartOptions] = useState<EChartsOption>(getInitialChartOptions());
   const [chartKey, setChartKey] = useState(0);
   const customColors = [chartColors.green, chartColors.pink, chartColors.gray, chartColors.orange, chartColors.purple, chartColors.blue];
 
   useEffect(() => {
-    // Function to update the chart options based on selectedClient
     const updateChartOptions = () => {
+      const filteredData = filterDataByDate(monthlySealed.barData, selectedDateFilter);
       const newChartOptions: EChartsOption = {
         tooltip: {
           trigger: 'axis',
@@ -27,8 +28,12 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
             lineHeight: 18
           },
         },
+        dataZoom: {
+          show: true,
+          type: 'slider'
+        },
         xAxis: {
-          data: monthlySealed.barData.map((item) => item.month),
+          data: filteredData.map((item) => item.month),
           axisTick: false,
           type: 'category',
           splitLine: {
@@ -82,7 +87,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
                 itemStyle: {
                   color: customColors[index % customColors.length]
                 },
-                data: monthlySealed.barData.map((item) => item[key] || 0),
+                data: filteredData.map((item) => item[key] || 0),
               }))
             : [
                 {
@@ -92,7 +97,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
                   itemStyle: {
                     color: chartColors.purple
                   },
-                  data: monthlySealed.barData.map(
+                  data: filteredData.map(
                     (item) => item[selectedClient] || 0
                   ),
                 },
@@ -101,10 +106,9 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
       setChartOptions(newChartOptions);
     };
 
-    updateChartOptions(); // Call the function initially
-  }, [selectedClient, monthlySealed]);
+    updateChartOptions();
+  }, [selectedClient, selectedDateFilter, monthlySealed]);
 
-  // Helper function to generate initial chart options
   function getInitialChartOptions() {
     return {
       tooltip: {
@@ -127,10 +131,29 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
     };
   }
 
-  // Function to handle radio button change
+  const filterDataByDate = (data: any[], filter: string) => {
+    switch (filter) {
+      case "LastYear":
+        const lastYearStart = moment().subtract(1, "year").startOf("year");
+        const lastYearEnd = moment().subtract(1, "year").endOf("year");
+        return data.filter(item =>
+          moment(item.month).isBetween(lastYearStart, lastYearEnd, undefined, "[]")
+        );
+      case "Last30Days":
+        const last30DaysStart = moment().subtract(30, "days").startOf("day");
+        return data.filter(item => moment(item.month).isSameOrAfter(last30DaysStart));
+      default:
+        return data;
+    }
+  };
+
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedClient(event.target.value);
-    // Change the chart key to force remounting of the chart component
+    setChartKey(chartKey + 1);
+  };
+
+  const handleDateFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedDateFilter(event.target.value);
     setChartKey(chartKey + 1);
   };
 
@@ -165,11 +188,40 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
       <div className="col-9_md-12">
         <div style={{ height: "600px" }}>
           <ReactECharts
-            key={chartKey} // Change the key to force remounting
+            key={chartKey}
             option={chartOptions}
             style={{ height: "617px" }}
           />
         </div>
+      </div>
+      <div className="col-12">
+        <label>
+          <input
+            type="radio"
+            value="All"
+            checked={selectedDateFilter === "All"}
+            onChange={handleDateFilterChange}
+          />
+          All Time
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="LastYear"
+            checked={selectedDateFilter === "LastYear"}
+            onChange={handleDateFilterChange}
+          />
+          Last Year
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="Last30Days"
+            checked={selectedDateFilter === "Last30Days"}
+            onChange={handleDateFilterChange}
+          />
+          Last 30 Days
+        </label>
       </div>
     </>
   );
