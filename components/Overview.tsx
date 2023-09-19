@@ -10,6 +10,7 @@ import MonthlySealed from '@utils/interfaces';
 import BigNumbers from '@/components/big-numbers';
 import DataPreparedChart from '@/components/data-prepared-chart';
 import DealSealedChart from '@/components/deal-sealed-chart';
+import DealsChart from '@/components/deals-chart';
 
 export default function Overview() {
   const [count, setCount] = useState(0);
@@ -272,8 +273,7 @@ export default function Overview() {
     },
   ];
 
-  console.log(dailySealed)
-  console.log('dailyPrepared', dailyPrepared)
+  console.log(dailyDeal)
 
   return (<>
     <BigNumbers overviewData={overviewData} />
@@ -288,83 +288,10 @@ export default function Overview() {
         {totalSealed ? <DealSealedChart title="Total Deal Sealed" data={totalSealed} /> : null }
     </div>
 
-      <h2>Daily Deal</h2>
-      <div style={{ height: "600px" }}>
-        <ResponsiveLine
-          data={dailyDeal}
-          margin={{ top: 20, right: 20, bottom: 60, left: 70 }}
-          curve={"monotoneX"}
-          enableSlices={"x"}
-          yScale={{
-            type: "linear",
-            min: 0,
-            max: "auto",
-            nice: true,
-            stacked: true,
-          }}
-          axisLeft={{
-            legendPosition: "middle",
-            legendOffset: -40,
-            format: (value: number) => byteSize(value).toString(),
-          }}
-          enableArea={true}
-          yFormat={(value: any) => byteSize(value).toString()}
-          xScale={{ type: "time", format: "%Y-%m-%d", useUTC: true }}
-          axisBottom={{
-            format: "%Y-%m-%d",
-            legendPosition: "middle",
-            legendOffset: 40,
-          }}
-          legends={[
-            {
-              anchor: "top-left",
-              direction: "column",
-              translateX: 20,
-              itemWidth: 80,
-              itemHeight: 20,
-            },
-          ]}
-        />
-      </div>
-
-      <h2>Total Deal</h2>
-      <div style={{ height: "600px" }}>
-        <ResponsiveLine
-          data={totalDeal}
-          margin={{ top: 20, right: 20, bottom: 60, left: 70 }}
-          curve={"monotoneX"}
-          enableSlices={"x"}
-          yScale={{
-            type: "linear",
-            min: 0,
-            max: "auto",
-            nice: true,
-            stacked: true,
-          }}
-          axisLeft={{
-            legendPosition: "middle",
-            legendOffset: -40,
-            format: (value: number) => byteSize(value).toString(),
-          }}
-          enableArea={true}
-          yFormat={(value: any) => byteSize(value).toString()}
-          xScale={{ type: "time", format: "%Y-%m-%d", useUTC: true }}
-          axisBottom={{
-            format: "%Y-%m-%d",
-            legendPosition: "middle",
-            legendOffset: 40,
-          }}
-          legends={[
-            {
-              anchor: "top-left",
-              direction: "column",
-              translateX: 20,
-              itemWidth: 80,
-              itemHeight: 20,
-            },
-          ]}
-        />
-      </div>
+    <div className="grid">
+        {dailyDeal ? <DealsChart title="Daily Deal" data={dailyDeal} /> : null }
+        {totalDeal ? <DealsChart title="Total Deal" data={totalDeal} /> : null }
+    </div>
 
       <h2>Monthly deals Sealed by Client</h2>
       <label>Choose a client</label>
