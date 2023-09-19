@@ -4,9 +4,9 @@ import * as echarts from 'echarts';
 import Loader from '@/components/loader';
 import moment from 'moment';
 import { chartColors } from '@/utils/colors';
+import { DataPreparedChartProps } from '@utils/interfaces';
 
-const DataPreparedChart = ({ data, title }) => {
-
+const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
   const options = {
     tooltip: {
       trigger: 'axis',
@@ -19,9 +19,9 @@ const DataPreparedChart = ({ data, title }) => {
         fontWeight: 500,
         lineHeight: 18
       },
-      formatter: function (params) {
+      formatter: function (params:any) {
         let tooltipText = '';
-        params.forEach((param) => {
+        params.forEach((param:any) => {
           tooltipText += param.marker + ' ' + param.seriesName + ': ' + byteSize(param.value[1]).toString() + '<br />';
         });
         tooltipText += moment(params[0].axisValue).format('YYYY/MM/DD');
@@ -51,7 +51,7 @@ const DataPreparedChart = ({ data, title }) => {
           color: chartColors.axisLabelTextColor,
         },
         interval: 200,
-        formatter: function (value) {
+        formatter: function (value:any) {
           return moment(value).format('YYYY/MM/DD');
         }
       },
@@ -71,7 +71,7 @@ const DataPreparedChart = ({ data, title }) => {
         textStyle: {
           color: chartColors.axisLabelTextColor,
         },
-        formatter: function (value) {
+        formatter: function (value:any) {
           return byteSize(value).toString();
         },
       },

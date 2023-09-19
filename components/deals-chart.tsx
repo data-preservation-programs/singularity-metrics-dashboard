@@ -2,8 +2,9 @@ import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import byteSize from 'byte-size';
 import moment from 'moment';
+import { DealsChartProps } from '@utils/interfaces';
 
-const DealsChart = ({ data, title }) => {
+const DealsChart = ({ data, title }: DealsChartProps) => {
   const seriesData = data.map(item => ({
     name: item.id,
     type: 'bar',
@@ -29,15 +30,15 @@ const DealsChart = ({ data, title }) => {
       type: 'category',
       data: xData,
       axisLabel: {
-        formatter: function (value) {
-          return moment(value).format('YYYY/MM/DD'); // Format date to 'YYYY/MM/DD'
+        formatter: function (value:any) {
+          return moment(value).format('YYYY/MM/DD');
         }
       },
     },
     yAxis: {
       type: 'value',
       axisLabel: {
-        formatter: (value) => byteSize(value).toString(),
+        formatter: (value:any) => byteSize(value).toString(),
       },
     },
     series: seriesData,

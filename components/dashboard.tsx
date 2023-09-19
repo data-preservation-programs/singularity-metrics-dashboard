@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { CarRow, DealRow, VerifiedClient, Version } from '@/app/api/types';
-
 import byteSize from 'byte-size';
 import Loader from '@/components/loader';
 import { mapToArray, toAccumulative } from '@/utils/utils';
-import MonthlySealed from '@utils/interfaces';
+import { MonthlySealed } from '@utils/interfaces';
 import BigNumbers from '@/components/big-numbers';
 import DataPreparedChart from '@/components/data-prepared-chart';
 import DealSealedChart from '@/components/deal-sealed-chart';
@@ -46,7 +45,7 @@ export default function Dashboard() {
   });
 
   useEffect(() => {
-    fetch("/api/global?type=carsGlobal")
+    fetch('/api/global?type=carsGlobal')
       .then((res) => res.json())
       .then((cars: CarRow[]) => {
         let count = 0;
@@ -77,20 +76,20 @@ export default function Dashboard() {
         setNumOfFiles(numOfFiles);
         setPieceSize(pieceSize);
         setDailyPrepared([
-          { id: "v1", data: dailyPreparedMap["v1"] },
-          { id: "v2", data: dailyPreparedMap["v2"] },
+          { id: 'v1', data: dailyPreparedMap['v1'] },
+          { id: 'v2', data: dailyPreparedMap['v2'] },
         ]);
         setTotalPrepared([
-          { id: "v1", data: totalPreparedMap["v1"] },
-          { id: "v2", data: totalPreparedMap["v2"] },
+          { id: 'v1', data: totalPreparedMap['v1'] },
+          { id: 'v2', data: totalPreparedMap['v2'] },
         ]);
       });
   }, []);
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/global?type=dealsGlobal"),
-      fetch("/api/global?type=verifiedClients"),
+      fetch('/api/global?type=dealsGlobal'),
+      fetch('/api/global?type=verifiedClients'),
     ])
       .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
       .then(([deals, verifiedClients]: [DealRow[], VerifiedClient[]]) => {
@@ -106,13 +105,13 @@ export default function Dashboard() {
         >();
         for (const deal of deals) {
           clients.add(deal.client);
-          if (deal.state === "active" || deal.state === "expired") {
+          if (deal.state === 'active' || deal.state === 'expired') {
             active += deal.pieceSize;
             activeQap += deal.qap;
           }
           proposed += deal.pieceSize;
           const month = deal.date.slice(0, 7);
-          if (deal.state === "active" || deal.state === "expired") {
+          if (deal.state === 'active' || deal.state === 'expired') {
             monthlySealedPerClientMap.has(month) ||
               monthlySealedPerClientMap.set(month, {});
             monthlySealedPerClientMap.get(month)![deal.client] =
@@ -174,29 +173,29 @@ export default function Dashboard() {
           for (const [client, pieceSize] of Object.entries(
             monthlySealedPerClient
           )) {
-            let name = "Others";
+            let name = 'Others';
             let verifiedClient: VerifiedClient = {
               address: client,
               addressId: client,
-              name: "Unknown",
-              orgName: "Unknown",
-              auditTrail: "",
-              industry: "",
-              region: "",
-              website: "",
-              initialAllowance: "",
+              name: 'Unknown',
+              orgName: 'Unknown',
+              auditTrail: '',
+              industry: '',
+              region: '',
+              website: '',
+              initialAllowance: '',
             };
             if (verifiedClientsMap.has(client)) {
               name =
-                verifiedClientsMap.get(client)!.name === ""
+                verifiedClientsMap.get(client)!.name === ''
                   ? verifiedClientsMap.get(client)!.orgName
                   : verifiedClientsMap.get(client)!.name;
-              const split = name.split(" ");
+              const split = name.split(' ');
               if (split.length > 1) {
                 if (split[0].length > 10) {
                   name = split[0];
                 } else {
-                  name = split[0] + " " + split[1];
+                  name = split[0] + ' ' + split[1];
                 }
               }
               verifiedClient = verifiedClientsMap.get(client)!;
@@ -206,17 +205,17 @@ export default function Dashboard() {
             barData
               .get(month)!
               .set(name, barData.get(month)!.get(name)! + pieceSize);
-            details.has(month + "#" + name) ||
-              details.set(month + "#" + name, []);
+            details.has(month + '#' + name) ||
+              details.set(month + '#' + name, []);
             const index = details
-              .get(month + "#" + name)!
+              .get(month + '#' + name)!
               .findIndex(([vc, _]) => vc.address === verifiedClient.address);
             if (index === -1) {
               details
-                .get(month + "#" + name)!
+                .get(month + '#' + name)!
                 .push([verifiedClient, pieceSize]);
             } else {
-              details.get(month + "#" + name)![index][1] += pieceSize;
+              details.get(month + '#' + name)![index][1] += pieceSize;
             }
           }
         }
@@ -238,35 +237,35 @@ export default function Dashboard() {
 
   const overviewData = [
     {
-      label: "Number of CAR prepared",
+      label: 'Number of CAR prepared',
       value: count === 0 ? <Loader /> : count.toLocaleString(),
     },
     {
-      label: "Number of Files prepared",
+      label: 'Number of Files prepared',
       value: numOfFiles === 0 ? <Loader /> : numOfFiles.toLocaleString(),
     },
     {
-      label: "Total Data Size prepared",
+      label: 'Total Data Size prepared',
       value: fileSize === 0 ? <Loader /> : byteSize(fileSize).toString(),
     },
     {
-      label: "Total Piece Size prepared",
+      label: 'Total Piece Size prepared',
       value: pieceSize === 0 ? <Loader /> : byteSize(pieceSize).toString(),
     },
     {
-      label: "Number of Clients",
+      label: 'Number of Clients',
       value: clients.size === 0 ? <Loader /> : clients.size.toLocaleString(),
     },
     {
-      label: "Deals Proposed",
+      label: 'Deals Proposed',
       value: proposed === 0 ? <Loader /> : byteSize(proposed).toString(),
     },
     {
-      label: "Deals Active",
+      label: 'Deals Active',
       value: active === 0 ? <Loader /> : byteSize(active).toString(),
     },
     {
-      label: "QAP Onboarded",
+      label: 'QAP Onboarded',
       value: activeQap === 0 ? <Loader /> : byteSize(activeQap).toString(),
     },
   ];
@@ -290,7 +289,7 @@ export default function Dashboard() {
     </div>
 
     <div className="grid">
-      {monthlySealed ? <MonthlyDeals monthlySealed={monthlySealed} /> : null }
+      {monthlySealed ? <MonthlyDeals data={monthlySealed} /> : null }
     </div>
   </>);
 }

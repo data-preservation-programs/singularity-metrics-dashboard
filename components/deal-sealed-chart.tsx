@@ -5,8 +5,9 @@ import moment from 'moment';
 import { chartColors } from '@/utils/colors';
 import * as echarts from 'echarts';
 import Loader from '@/components/loader';
+import { DataPreparedChartProps } from '@utils/interfaces';
 
-const DealSealedChart = ({ data, title }) => {
+const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
   const xData = data && data[0] && data[0].data.map(entry => entry.x);
   const yData = data && data[0] && data[0].data.map(entry => entry.y);
 
@@ -22,7 +23,7 @@ const DealSealedChart = ({ data, title }) => {
         fontWeight: 500,
         lineHeight: 18
       },
-      formatter: function (params) {
+      formatter: function (params:any) {
         const xValue = params[0].name; // X-axis value
         const yValue = byteSize(params[0].value).toString(); // Y-axis value using byteSize
         return `${yValue}<br/>${moment(xValue).format('YYYY/MM/DD')}`;
@@ -52,7 +53,7 @@ const DealSealedChart = ({ data, title }) => {
           color: chartColors.axisLabelTextColor,
         },
         interval: 200,
-        formatter: function (value) {
+        formatter: function (value:any) {
           return moment(value).format('YYYY/MM/DD'); // Format date to 'YYYY/MM/DD'
         }
       },
@@ -72,7 +73,7 @@ const DealSealedChart = ({ data, title }) => {
         textStyle: {
           color: chartColors.axisLabelTextColor,
         },
-        formatter: function (value) {
+        formatter: function (value:any) {
           return byteSize(value).toString();
         },
       },

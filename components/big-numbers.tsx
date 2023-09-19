@@ -1,4 +1,6 @@
-function BigNumbers({ overviewData }) {
+import { BigNumbersProps } from '@utils/interfaces';
+  
+function BigNumbers({ overviewData }: BigNumbersProps) {
   return (
     <section className="big-numbers">
       <div className="grid-noBottom">
@@ -8,7 +10,7 @@ function BigNumbers({ overviewData }) {
       </div>
       <div className="grid">
         {overviewData.map((data, index) => (
-          <div className="col-3_md-6_mi-12 card-wrapper" key={index}>
+          <div className="col-3_lg-6_mi-12 card-wrapper" key={index}>
             <div className="card">
               <div className="content">
                 <h3>{data.value}</h3>
