@@ -8,12 +8,6 @@
 
 .main-content {
   position: relative;
-  @include medium {
-    margin: 0 -1rem;
-  }
-  @include small {
-    margin: 0;
-  }
 }
 
 .logo {
