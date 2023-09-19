@@ -1,80 +1,111 @@
-import React, { useState, useEffect } from 'react';
-import ReactECharts from 'echarts-for-react';
-import byteSize from 'byte-size';
+import React, { useState, useEffect } from "react";
+import ReactECharts, { EChartsOption } from 'echarts-for-react';
+import byteSize from "byte-size";
 import { MonthlySealed } from '@utils/interfaces';
+import { chartColors } from '@/utils/colors';
+import moment from 'moment';
 
-// Define a type for the xAxis data
-type ChartXAxisData = string[];
-
-// Define a type for the chart options
-type ChartOptions = {
-  tooltip: {
-    trigger: string;
-    axisPointer: {
-      type: string;
-    };
-  };
-  xAxis: {
-    type: string;
-    data: ChartXAxisData;
-  };
-  yAxis: {
-    type: string;
-    axisLabel: {
-      formatter: (value: any) => string;
-    };
-  };
-  series: {
-    name: any;
-    type: string;
-    stack: string;
-    data: any[];
-  }[];
-};
-
-const MonthlyDeals = ({ data }: { data: MonthlySealed }) => {
-  const [selectedClient, setSelectedClient] = useState<string | 'All'>('All');
-  const [chartOptions, setChartOptions] = useState<ChartOptions>(getInitialChartOptions());
+const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
+  const [selectedClient, setSelectedClient] = useState("All");
+  const [chartOptions, setChartOptions] = useState<EChartsOption>(getInitialChartOptions());
   const [chartKey, setChartKey] = useState(0);
+  const customColors = [chartColors.green, chartColors.pink, chartColors.gray, chartColors.orange, chartColors.purple, chartColors.blue];
 
   useEffect(() => {
     // Function to update the chart options based on selectedClient
     const updateChartOptions = () => {
-      const newChartOptions: ChartOptions = {
+      const newChartOptions: EChartsOption = {
         tooltip: {
           trigger: 'axis',
-          axisPointer: {
-            type: 'shadow',
+          backgroundColor: chartColors.tooltipBgTransparent,
+          borderColor: chartColors.tooltipBgTransparent,
+          padding: [3, 10],
+          textStyle: {
+            color: chartColors.axisLabelTextColor,
+            fontSize: 12,
+            fontWeight: 500,
+            lineHeight: 18
           },
         },
         xAxis: {
+          data: monthlySealed.barData.map((item) => item.month),
+          axisTick: false,
           type: 'category',
-          data: data.barData.map((item: any) => item.month) as ChartXAxisData,
+          splitLine: {
+            show: false,
+          },
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: chartColors.gridLineColor,
+            },
+          },
+          axisLabel: {
+            margin: 10,
+            textStyle: {
+              color: chartColors.axisLabelTextColor,
+            },
+            formatter: function (value:any) {
+              return moment(value).format('YYYY/MM/DD');
+            }
+          },
         },
         yAxis: {
+          axisLine: {
+            show: true,
+            lineStyle: {
+              color: chartColors.gridLineColor,
+            },
+          },
           type: 'value',
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: chartColors.gridLineColor,
+            },
+          },
           axisLabel: {
-            formatter: (value: any) => byteSize(value).toString(),
+            textStyle: {
+              color: chartColors.axisLabelTextColor,
+            },
+            formatter: function (value:any) {
+              return byteSize(value).toString();
+            },
           },
         },
         series:
           selectedClient === 'All'
-            ? data.keys.map((key: any) => ({
+            ? monthlySealed.keys.map((key, index) => ({
                 name: key,
                 type: 'bar',
                 stack: 'stack',
-                data: data.barData.map((item: any) => item[key] || 0),
+                itemStyle: {
+                  color: customColors[index % customColors.length]
+                },
+                data: monthlySealed.barData.map((item) => item[key] || 0),
               }))
-            : [],
+            : [
+                {
+                  name: selectedClient,
+                  type: 'bar',
+                  stack: 'stack',
+                  itemStyle: {
+                    color: chartColors.purple
+                  },
+                  data: monthlySealed.barData.map(
+                    (item) => item[selectedClient] || 0
+                  ),
+                },
+              ],
       };
       setChartOptions(newChartOptions);
     };
 
-    updateChartOptions();
-  }, [selectedClient, data]);
+    updateChartOptions(); // Call the function initially
+  }, [selectedClient, monthlySealed]);
 
   // Helper function to generate initial chart options
-  function getInitialChartOptions(): ChartOptions {
+  function getInitialChartOptions() {
     return {
       tooltip: {
         trigger: 'axis',
@@ -84,12 +115,12 @@ const MonthlyDeals = ({ data }: { data: MonthlySealed }) => {
       },
       xAxis: {
         type: 'category',
-        data: [] as ChartXAxisData,
+        data: [],
       },
       yAxis: {
         type: 'value',
         axisLabel: {
-          formatter: (value: any) => byteSize(value).toString(),
+          formatter: (value:any) => byteSize(value).toString(),
         },
       },
       series: [],
@@ -119,7 +150,7 @@ const MonthlyDeals = ({ data }: { data: MonthlySealed }) => {
           />
           All
         </label>
-        {data.keys.map((key: any) => (
+        {monthlySealed.keys.map((key) => (
           <label key={key}>
             <input
               type="radio"

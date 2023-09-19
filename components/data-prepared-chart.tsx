@@ -77,6 +77,10 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
       },
     },
     series: data && data.map((item, index) => ({
+      data: item.data.map(d => ({
+        name: d.x,
+        value: [d.x, d.y],
+      })),
       name: item.id,
       type: 'line',
       smooth: true,
@@ -98,10 +102,6 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
           color: index === 0 ? chartColors.green : chartColors.orange,
         },
       },
-      data: item.data.map(d => ({
-        name: d.x,
-        value: [d.x, d.y],
-      })),
       lineStyle: {
         color: index === 0 ? chartColors.green : chartColors.orange,
       },

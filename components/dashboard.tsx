@@ -289,7 +289,7 @@ export default function Dashboard() {
     </div>
 
     <div className="grid">
-      {monthlySealed ? <MonthlyDeals data={monthlySealed} /> : null }
+      {monthlySealed ? <MonthlyDeals monthlySealed={monthlySealed} /> : null }
     </div>
   </>);
 }

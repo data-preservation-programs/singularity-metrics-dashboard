@@ -24,8 +24,8 @@ const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
         lineHeight: 18
       },
       formatter: function (params:any) {
-        const xValue = params[0].name; // X-axis value
-        const yValue = byteSize(params[0].value).toString(); // Y-axis value using byteSize
+        const xValue = params[0].name;
+        const yValue = byteSize(params[0].value).toString();
         return `${yValue}<br/>${moment(xValue).format('YYYY/MM/DD')}`;
       },
     },
