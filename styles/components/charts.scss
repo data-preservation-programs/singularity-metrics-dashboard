@@ -1,3 +1,23 @@
+.client-c {
+    background-color: $codGray2;
+    height: 685px;
+    overflow-y: scroll;
+    padding: toRem(22);
+    @include medium {
+        height: auto;
+        overflow: auto;
+    }
+    label {
+        display: block;
+        padding-bottom: toRem(5);
+        @include p1;
+        input[type="radio"] {
+            vertical-align: middle;
+            margin-right: toRem(10);
+        }
+    }
+}
+
 .echarts-for-react {
     background-color: $codGray2;
     padding: toRem(10);

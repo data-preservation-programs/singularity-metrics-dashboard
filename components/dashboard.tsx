@@ -11,7 +11,7 @@ import DealSealedChart from '@/components/deal-sealed-chart';
 import DealsChart from '@/components/deals-chart';
 import MonthlyDeals from '@/components/monthly-deals';
 
-export default function Overview() {
+export default function Dashboard() {
   const [count, setCount] = useState(0);
   const [fileSize, setFileSize] = useState(0);
   const [numOfFiles, setNumOfFiles] = useState(0);

@@ -87,7 +87,7 @@ const MonthlyDeals = ({ monthlySealed }) => {
       <div className="col-12">
         <h2>Monthly deals Sealed by Client</h2>
       </div>
-      <div className="col-3">
+      <div className="col-3_md-12 client-c">
         <label>Select a client</label>
         <label>
           <input
@@ -110,7 +110,7 @@ const MonthlyDeals = ({ monthlySealed }) => {
           </label>
         ))}
       </div>
-      <div className="col-9">
+      <div className="col-9_md-12">
         <div style={{ height: "600px" }}>
           <ReactECharts
             key={chartKey} // Change the key to force remounting

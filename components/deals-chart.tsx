@@ -15,6 +15,8 @@ const DealsChart = ({ data, title }) => {
 
   const option = {
     legend: {
+      orient: 'vertical',
+      left: 'left',
       data: data.map(item => item.id),
     },
     tooltip: {
@@ -42,7 +44,7 @@ const DealsChart = ({ data, title }) => {
   };
 
   return (
-    <div className="col-6">
+    <div className="col-6_md-12">
       <h2>{title}</h2>
       {data && data.length > 0 ? (
         <ReactECharts option={option} style={{ height: '600px', width: '100%' }} />
