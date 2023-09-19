@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { CarRow, DealRow, VerifiedClient, Version } from '@/app/api/types';
-import { ResponsiveLine } from '@nivo/line';
-import { ResponsiveBar } from '@nivo/bar';
 
 import byteSize from 'byte-size';
 import Loader from '@/components/loader';
@@ -11,6 +9,7 @@ import BigNumbers from '@/components/big-numbers';
 import DataPreparedChart from '@/components/data-prepared-chart';
 import DealSealedChart from '@/components/deal-sealed-chart';
 import DealsChart from '@/components/deals-chart';
+import MonthlyDeals from '@/components/monthly-deals';
 
 export default function Overview() {
   const [count, setCount] = useState(0);
@@ -45,7 +44,6 @@ export default function Overview() {
     details: new Map(),
     keys: [],
   });
-  const [selectedClient, setSelectedClient] = useState<string>("All");
 
   useEffect(() => {
     fetch("/api/global?type=carsGlobal")
@@ -273,8 +271,6 @@ export default function Overview() {
     },
   ];
 
-  console.log(dailyDeal)
-
   return (<>
     <BigNumbers overviewData={overviewData} />
 
@@ -293,120 +289,8 @@ export default function Overview() {
         {totalDeal ? <DealsChart title="Total Deal" data={totalDeal} /> : null }
     </div>
 
-      <h2>Monthly deals Sealed by Client</h2>
-      <label>Choose a client</label>
-      <div>
-        <label>
-          <input
-            type="radio"
-            value="All"
-            checked={selectedClient === "All"}
-            onChange={(event) => setSelectedClient(event.target.value)}
-          />
-          All
-        </label>
-        {monthlySealed.keys.map((key) => (
-          <label key={key}>
-            <input
-              type="radio"
-              value={key}
-              checked={selectedClient === key}
-              onChange={(event) => setSelectedClient(event.target.value)}
-            />
-            {key}
-          </label>
-        ))}
-      </div>
-
-      <div style={{ height: "600px" }}>
-        <ResponsiveBar
-          data={monthlySealed.barData}
-          margin={{ top: 20, right: 20, bottom: 60, left: 70 }}
-          keys={selectedClient === "All" ? monthlySealed.keys : [selectedClient]}
-          indexBy={"month"}
-          groupMode={"stacked"}
-          layout={"vertical"}
-          colors={{ scheme: "set3" }}
-          minValue={0}
-          valueFormat={(value: number) => byteSize(value).toString()}
-          axisLeft={{
-            legendPosition: "middle",
-            legendOffset: -40,
-            format: (value: number) => byteSize(value).toString(),
-          }}
-          axisBottom={{
-            legendPosition: "middle",
-            legendOffset: 40,
-          }}
-          labelSkipHeight={12}
-          label={(data) => {
-            return data.id as string;
-          }}
-          tooltip={(data) => {
-            const name = data.id;
-            const month = data.indexValue;
-            const detail: [VerifiedClient, number][] = monthlySealed.details.get(
-              month + "#" + name
-            )!;
-            return (
-              <div
-                style={{ padding: 12, color: data.color, background: "#444444" }}
-              >
-                <h3>
-                  {name}: {data.formattedValue}
-                </h3>
-                {detail.map(([client, value]) => {
-                  return (
-                    <>
-                      <br />
-                      <br />
-                      <strong>
-                        {client.addressId} - {client.address}
-                      </strong>
-                      <br />
-                      <strong>{byteSize(value).toString()}</strong>
-                      {client.region === "" ? (
-                        ""
-                      ) : (
-                        <>
-                          <br />
-                          <span>Region: {client.region}</span>
-                        </>
-                      )}
-                      {client.industry === "" ? (
-                        ""
-                      ) : (
-                        <>
-                          <br />
-                          <span>Industry: {client.industry}</span>
-                        </>
-                      )}
-                      {client.website === "" ? (
-                        ""
-                      ) : (
-                        <>
-                          <br />
-                          <span>Website: {client.website}</span>
-                        </>
-                      )}
-                      {!client.auditTrail.includes("https://") ? (
-                        ""
-                      ) : (
-                        <>
-                          <br />
-                          <span>
-                            Issue: {client.auditTrail.split("/").slice(-1)[0]}
-                          </span>
-                        </>
-                      )}
-                    </>
-                  );
-                })}
-              </div>
-            );
-          }}
-        />
-      </div>
-    </>
-  );
+    <div className="grid">
+      {monthlySealed ? <MonthlyDeals monthlySealed={monthlySealed} /> : null }
+    </div>
+  </>);
 }
