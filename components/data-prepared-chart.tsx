@@ -92,7 +92,7 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
           },
           {
             offset: 1,
-            color: 'rgba(167, 200, 137, 0)',
+            color: chartColors.greenEnd,
           },
         ]),
       },

@@ -45,3 +45,22 @@ code {
 @import 'components/toast';
 @import 'components/tooltip';
 @import 'components/video-wrapper';
+
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #575757 $codGray2;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: $codGray2;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #575757;
+  border-radius: 10px;
+  border: none;
+}

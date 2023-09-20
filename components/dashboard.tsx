@@ -284,8 +284,8 @@ export default function Dashboard() {
     </div>
 
     <div className="grid">
-        {dailyDeal ? <DealsChart title="Daily Deal" data={dailyDeal} /> : null }
-        {totalDeal ? <DealsChart title="Total Deal" data={totalDeal} /> : null }
+        {dailyDeal ? <DealsChart title="Daily Deals" data={dailyDeal} /> : null }
+        {totalDeal ? <DealsChart title="Total Deals" data={totalDeal} /> : null }
     </div>
 
     <div className="grid">

@@ -89,7 +89,7 @@ const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
           },
           {
             offset: 1,
-            color: 'rgba(255, 197, 130, 0)',
+            color: chartColors.orangeEnd,
           },
         ]),
       },

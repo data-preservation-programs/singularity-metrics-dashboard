@@ -31,4 +31,13 @@ function toAccumulative(
   return out;
 }
 
-export { mapToArray, toAccumulative };
+function convertToTitleCase(str) {
+  if (!str) {
+    return "";
+  }
+
+  // Replace underscores with spaces and then convert to title case
+  return str.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+}
+
+export { mapToArray, toAccumulative, convertToTitleCase };

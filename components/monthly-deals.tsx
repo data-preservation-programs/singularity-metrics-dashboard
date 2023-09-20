@@ -11,6 +11,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
   const [chartOptions, setChartOptions] = useState<EChartsOption>(getInitialChartOptions());
   const [chartKey, setChartKey] = useState(0);
   const customColors = [chartColors.green, chartColors.pink, chartColors.gray, chartColors.orange, chartColors.purple, chartColors.blue];
+  const customColorsEnd = [chartColors.greenEnd, chartColors.pinkEnd, chartColors.grayEnd, chartColors.orangeEnd, chartColors.purpleEnd, chartColors.blueEnd];
 
   useEffect(() => {
     const updateChartOptions = () => {
@@ -26,6 +27,19 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
             fontSize: 12,
             fontWeight: 500,
             lineHeight: 18
+          },
+          formatter: function(params: any) {
+            const tooltipContent = [];
+            tooltipContent.push(params[0].axisValueLabel);
+            params.forEach(function(item: any) {
+              // Check if the data point value is not equal to 0
+              if (item.data !== 0) {
+                tooltipContent.push(
+                  `${item.marker} ${item.seriesName}: ${byteSize(item.data).toString()}`
+                );
+              }
+            });
+            return tooltipContent.join('<br>');
           },
         },
         dataZoom: {
@@ -85,7 +99,23 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
                 type: 'bar',
                 stack: 'stack',
                 itemStyle: {
-                  color: customColors[index % customColors.length]
+                  color: {
+                    type: 'linear',
+                    x: 0, // Start position for the gradient
+                    y: 0, // End position for the gradient
+                    x2: 0, // Start position for the gradient
+                    y2: 1, // End position for the gradient
+                    colorStops: [
+                      {
+                        offset: 0,
+                        color: customColors[index % customColors.length],
+                      },
+                      {
+                        offset: 1,
+                        color: customColorsEnd[index % customColors.length],
+                      },
+                    ],
+                  },
                 },
                 data: filteredData.map((item) => item[key] || 0),
               }))
@@ -95,13 +125,29 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
                   type: 'bar',
                   stack: 'stack',
                   itemStyle: {
-                    color: chartColors.purple
+                    color: {
+                      type: 'linear',
+                      x: 0,
+                      y: 0,
+                      x2: 0,
+                      y2: 1,
+                      colorStops: [
+                        {
+                          offset: 0,
+                          color: chartColors.purple,
+                        },
+                        {
+                          offset: 1,
+                          color: chartColors.purpleEnd,
+                        },
+                      ],
+                    },
                   },
-                  data: filteredData.map(
-                    (item) => item[selectedClient] || 0
-                  ),
-                },
-              ],
+                data: filteredData.map(
+                  (item) => item[selectedClient] || 0
+                ),
+              },
+            ],
       };
       setChartOptions(newChartOptions);
     };
@@ -160,30 +206,32 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
   return (
     <>
       <div className="col-12">
-        <h2>Monthly deals Sealed by Client</h2>
+        <h2>Monthly Deals Sealed by Client</h2>
       </div>
       <div className="col-3_md-12 client-c">
         <label>Select a client</label>
-        <label>
-          <input
-            type="radio"
-            value="All"
-            checked={selectedClient === "All"}
-            onChange={handleRadioChange}
-          />
-          All
-        </label>
-        {monthlySealed.keys.map((key) => (
-          <label key={key}>
+        <div className="client-list">
+          <label>
             <input
               type="radio"
-              value={key}
-              checked={selectedClient === key}
+              value="All"
+              checked={selectedClient === "All"}
               onChange={handleRadioChange}
             />
-            {key}
+            All
           </label>
-        ))}
+          {monthlySealed.keys.map((key) => (
+            <label key={key}>
+              <input
+                type="radio"
+                value={key}
+                checked={selectedClient === key}
+                onChange={handleRadioChange}
+              />
+              {key}
+            </label>
+          ))}
+        </div>
       </div>
       <div className="col-9_md-12">
         <div style={{ height: "600px" }}>
@@ -193,35 +241,37 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
             style={{ height: "617px" }}
           />
         </div>
-      </div>
-      <div className="col-12">
-        <label>
-          <input
-            type="radio"
-            value="All"
-            checked={selectedDateFilter === "All"}
-            onChange={handleDateFilterChange}
-          />
-          All Time
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="LastYear"
-            checked={selectedDateFilter === "LastYear"}
-            onChange={handleDateFilterChange}
-          />
-          Last Year
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="Last30Days"
-            checked={selectedDateFilter === "Last30Days"}
-            onChange={handleDateFilterChange}
-          />
-          Last 30 Days
-        </label>
+
+        <div className="date-filter">
+          <label>
+            <input
+              type="radio"
+              value="All"
+              checked={selectedDateFilter === "All"}
+              onChange={handleDateFilterChange}
+            />
+            All Time
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="LastYear"
+              checked={selectedDateFilter === "LastYear"}
+              onChange={handleDateFilterChange}
+            />
+            Last Year
+          </label>
+          <label>
+            <input
+              type="radio"
+              value="Last30Days"
+              checked={selectedDateFilter === "Last30Days"}
+              onChange={handleDateFilterChange}
+            />
+            Last 30 Days
+          </label>
+        </div>
+
       </div>
     </>
   );

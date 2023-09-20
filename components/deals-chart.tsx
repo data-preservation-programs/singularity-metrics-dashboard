@@ -4,8 +4,8 @@ import byteSize from 'byte-size';
 import moment from 'moment';
 import { DealsChartProps } from '@utils/interfaces';
 import Loader from '@/components/loader';
-import * as echarts from 'echarts';
 import { chartColors } from '@/utils/colors';
+import { convertToTitleCase } from '@utils/utils';
 
 const DealsChart = ({ data, title }: DealsChartProps) => {
 
@@ -16,13 +16,27 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
       orient: 'vertical',
       left: '11%',
       data: data.map(item => item.id),
+      icon: 'rect', //"image://data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='16' height='16' fill='%23A7C889'/%3E%3C/svg%3E%0A",
+      itemGap: 5,
       textStyle: {
         color: chartColors.axisLabelTextColor,
         fontSize: 14,
         fontWeight: 500,
-        lineHeight: 17
+        lineHeight: 17,
+        padding: [0,0,0,6]
       },
+      formatter: function (name:any) {
+        return convertToTitleCase(name)
+      }
     },
+    dataZoom: [
+      {
+        show: true,
+        type: 'slider',
+        start: 92,
+        end: 100
+      },
+    ],
     tooltip: {
       trigger: 'axis',
       backgroundColor: chartColors.tooltipBgTransparent,
@@ -34,6 +48,13 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
         fontWeight: 500,
         lineHeight: 18
       },
+      formatter: (params:any) => {
+        let tooltip = '';
+        params.forEach((param:any) => {
+          tooltip += `${param.marker} ${convertToTitleCase(param.seriesName)}: ${byteSize(param.value).toString()}<br />`;
+        });
+        return tooltip;
+      }
     },
     grid: {
       top: '25px',
@@ -90,7 +111,6 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
       type: 'bar',
       stack: 'stack',
       showSymbol: false,
-      // Set the custom color for this data series
       itemStyle: {
         color: customColors[index % customColors.length]
       },

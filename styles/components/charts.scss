@@ -1,11 +1,13 @@
 .client-c {
     background-color: $codGray2;
-    height: 685px;
-    overflow-y: scroll;
     padding: toRem(22);
-    @include medium {
-        height: auto;
-        overflow: auto;
+    .client-list {
+        height: 620px;
+        overflow-y: scroll;
+        @include medium {
+            height: auto;
+            overflow: auto;
+        }
     }
     label {
         display: block;
@@ -18,7 +20,13 @@
     }
 }
 
+.date-filter {
+    position: relative;
+    margin-top: toRem(30);
+}
+
 .echarts-for-react {
     background-color: $codGray2;
     padding: toRem(10);
+    margin-bottom: toRem(22);
 }
