@@ -8,14 +8,17 @@ import { chartColors, colorList, colorEndList } from '@/utils/colors';
 import { convertToTitleCase } from '@utils/utils';
 
 const DealsChart = ({ data, title }: DealsChartProps) => {
-
+  console.log(data)
   const option = {
     legend: {
       orient: 'vertical',
-      top: 18,
-      left: '11%',
+      top: 24,
+      left: 75,
       data: data.map(item => item.id),
       icon: 'rect', //"image://data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='16' height='16' fill='%23A7C889'/%3E%3C/svg%3E%0A",
+      padding: 15,
+      borderRadius: 5,
+      backgroundColor: chartColors.legendBg,
       itemGap: 5,
       textStyle: {
         color: chartColors.axisLabelTextColor,
@@ -71,13 +74,13 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
         fontWeight: 500,
         lineHeight: 18
       },
-      // formatter: (params:any) => {
-      //   let tooltip = '';
-      //   params.forEach((param:any) => {
-      //     tooltip += `${param.marker} ${convertToTitleCase(param.seriesName)}: ${byteSize(param.value).toString()}<br />`;
-      //   });
-      //   return tooltip;
-      // }
+      formatter: (params:any) => {
+        let tooltip = moment(params[0].axisValueLabel).format('MMM D, YYYY') + '<br />';
+        params.forEach((param:any) => {
+          tooltip += `${param.marker} ${convertToTitleCase(param.seriesName)}: ${byteSize(param.value).toString()}<br />`;
+        });
+        return tooltip;
+      }
     },
     grid: {
       top: 25,
@@ -100,15 +103,13 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
         },
       },
       axisLabel: {
-        // showMinLabel: false,
-        // showMaxLabel: false,
         hideOverlap: true,
         margin: 10,
         textStyle: {
           color: chartColors.axisLabelTextColor,
         },
         formatter: function (value:any) {
-          return moment(value).format('MMM d YYYY');
+          return moment(value).format('MMM D, YYYY');
         }
       },
     },

@@ -32,7 +32,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
           },
           formatter: function(params: any) {
             const tooltipContent = [];
-            tooltipContent.push(params[0].axisValueLabel);
+            tooltipContent.push(moment(params[0].axisValueLabel).format('MMM YYYY'));
             params.forEach(function(item: any) {
               // Check if the data point value is not equal to 0
               if (item.data !== 0) {
@@ -251,7 +251,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
         ) : (
           <div className="col-3_md-12">
             <div className="client-c">
-              <label>Select a client</label>
+              {monthlySealed && monthlySealed.keys.length ? <label>Select a client</label> : null }
               <div className="client-list">
                 {monthlySealed && monthlySealed.keys.length ? (
                   <>
@@ -276,9 +276,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
                       </label>
                     ))}
                   </>
-                ) : (
-                  <Loader />
-                )}
+                ) : null}
               </div>
             </div>
           </div>

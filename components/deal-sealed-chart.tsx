@@ -26,7 +26,7 @@ const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
       formatter: function (params:any) {
         const xValue = params[0].name;
         const yValue = byteSize(params[0].value).toString();
-        return `${yValue}<br/>${moment(xValue).format('YYYY/MM/DD')}`;
+        return `${yValue}<br/>${moment(xValue).format('MMM D, YYYY')}`;
       },
     },
     grid: {

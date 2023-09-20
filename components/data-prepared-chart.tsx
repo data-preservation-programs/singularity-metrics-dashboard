@@ -24,7 +24,7 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
         params.forEach((param:any) => {
           tooltipText += param.marker + ' ' + param.seriesName + ': ' + byteSize(param.value[1]).toString() + '<br />';
         });
-        tooltipText += moment(params[0].axisValue).format('YYYY/MM/DD');
+        tooltipText += moment(params[0].axisValue).format('MMM D, YYYY');
         return tooltipText;
       },
     },

@@ -44,8 +44,8 @@
 .custom-radio {
     display: block;
     position: relative;
-    padding-left: 24px;
-    margin-bottom: 10px;
+    padding-left: toRem(24);
+    margin-bottom: toRem(14);
     cursor: pointer;
     input[type="radio"] {
         display: none;
@@ -54,7 +54,7 @@
 
 .custom-radio-button {
     position: absolute;
-    top: 0;
+    top: 2px;
     left: 0;
     width: 14px;
     height: 14px;
