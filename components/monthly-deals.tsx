@@ -10,9 +10,13 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
   const [selectedClient, setSelectedClient] = useState('All');
   const [chartOptions, setChartOptions] = useState<EChartsOption>(getInitialChartOptions());
   const [chartKey, setChartKey] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setChartKey(0);
+    const mediaQuery = window.matchMedia('(max-width: 1024px)');
+    setIsMobile(mediaQuery.matches);
+
     const updateChartOptions = () => {
       const newChartOptions: EChartsOption = {
         tooltip: {
@@ -184,6 +188,15 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
     };
 
     updateChartOptions();
+
+    const mediaQueryListener = (event: MediaQueryListEvent) => {
+      setIsMobile(event.matches);
+    };
+    mediaQuery.addEventListener('change', mediaQueryListener);
+    // Clean up the event listener when the component unmounts
+    return () => {
+      mediaQuery.removeEventListener('change', mediaQueryListener);
+    };
   }, [selectedClient, monthlySealed]);
 
   function getInitialChartOptions() {
@@ -205,7 +218,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
     };
   }
 
-  const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRadioChange = (event: any) => {
     setSelectedClient(event.target.value);
     setChartKey(chartKey + 1);
   };
@@ -218,35 +231,58 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
         </div>
       </div>
       <div className="grid">
-        <div className="col-3_md-12">
-          <div className="client-c">
-            <label>Select a client</label>
-            <div className="client-list">
-              {monthlySealed && monthlySealed.keys.length ? <>
-                <label>
-                  <input
-                    type="radio"
-                    value="All"
-                    checked={selectedClient === "All"}
-                    onChange={handleRadioChange}
-                  />
-                  All
-                </label>
+        {isMobile ? (
+          <div className="col-12">
+            <div className="client-c">
+              <label>Select a client</label>
+              <select
+                value={selectedClient}
+                onChange={(e) => setSelectedClient(e.target.value)}
+              >
+                <option value="All">All</option>
                 {monthlySealed.keys.map((key) => (
-                  <label key={key}>
-                    <input
-                      type="radio"
-                      value={key}
-                      checked={selectedClient === key}
-                      onChange={handleRadioChange}
-                    />
+                  <option key={key} value={key}>
                     {key.trim()}
-                  </label>
+                  </option>
                 ))}
-              </> : <Loader /> }
+              </select>
             </div>
           </div>
-        </div>
+        ) : (
+          <div className="col-3_md-12">
+            <div className="client-c">
+              <label>Select a client</label>
+              <div className="client-list">
+                {monthlySealed && monthlySealed.keys.length ? (
+                  <>
+                    <label className="custom-radio">
+                      <input
+                        type="radio"
+                        value="All"
+                        checked={selectedClient === "All"}
+                        onChange={handleRadioChange}
+                      />
+                      <span className="custom-radio-button"></span> All
+                    </label>
+                    {monthlySealed.keys.map((key) => (
+                      <label key={key} className="custom-radio">
+                        <input
+                          type="radio"
+                          value={key}
+                          checked={selectedClient === key}
+                          onChange={handleRadioChange}
+                        />
+                        <span className="custom-radio-button"></span> {key.trim()}
+                      </label>
+                    ))}
+                  </>
+                ) : (
+                  <Loader />
+                )}
+              </div>
+            </div>
+          </div>
+        )}
         <div className="col-9_md-12">
           {monthlySealed && monthlySealed.barData.length ? (
             <ReactECharts

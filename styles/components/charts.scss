@@ -19,7 +19,12 @@
 .client-c {
     background-color: $codGray2;
     padding: toRem(22);
+    height: toRem(600);
+    @include medium {
+        height: auto;
+    }
     .client-list {
+        margin-top: toRem(20);
         height: toRem(525);
         overflow-y: scroll;
         @include medium {
@@ -27,18 +32,45 @@
             overflow: auto;
         }
     }
-    label {
-        display: block;
-        padding-bottom: toRem(5);
-        @include p1;
-        input[type="radio"] {
-            vertical-align: middle;
-            margin-right: toRem(10);
-        }
-    }
 }
 
 .date-filter {
     position: relative;
     margin-top: toRem(30);
+}
+
+
+// radio
+.custom-radio {
+    display: block;
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    input[type="radio"] {
+        display: none;
+    }
+}
+
+.custom-radio-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(141, 141, 141, 1);
+    border-radius: 50%;
+}
+
+.custom-radio input[type="radio"]:checked + .custom-radio-button {
+    &:after {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        border-radius: 100%;
+        content: '';
+        width: 6px;
+        height: 6px;
+        background-color: #CBDDBB;
+    }
 }
