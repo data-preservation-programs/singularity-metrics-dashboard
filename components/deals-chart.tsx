@@ -123,7 +123,9 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
       {data && data.length > 0 ? (
         <ReactECharts option={option} style={{ height: '600px', width: '100%' }} />
       ) : (
-        <Loader />
+        <div className="chart-placeholder">
+          <Loader />
+        </div>
       )}
     </div>
   );

@@ -4,6 +4,7 @@ import byteSize from "byte-size";
 import { MonthlySealed } from '@utils/interfaces';
 import { chartColors } from '@/utils/colors';
 import moment from 'moment';
+import Loader from '@/components/loader';
 
 const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
   const [selectedClient, setSelectedClient] = useState("All");
@@ -211,62 +212,56 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
       <div className="col-3_md-12 client-c">
         <label>Select a client</label>
         <div className="client-list">
-          <label>
-            <input
-              type="radio"
-              value="All"
-              checked={selectedClient === "All"}
-              onChange={handleRadioChange}
-            />
-            All
-          </label>
-          {monthlySealed.keys.map((key) => (
-            <label key={key}>
+          {monthlySealed && monthlySealed.keys.length ? <>
+            <label>
               <input
                 type="radio"
-                value={key}
-                checked={selectedClient === key}
+                value="All"
+                checked={selectedClient === "All"}
                 onChange={handleRadioChange}
               />
-              {key}
+              All
             </label>
-          ))}
+            {monthlySealed.keys.map((key) => (
+              <label key={key}>
+                <input
+                  type="radio"
+                  value={key}
+                  checked={selectedClient === key}
+                  onChange={handleRadioChange}
+                />
+                {key}
+              </label>
+            ))}
+          </> : <Loader /> }
         </div>
       </div>
       <div className="col-9_md-12">
-        <div style={{ height: "600px" }}>
+        {monthlySealed && monthlySealed.barData.length ? (
           <ReactECharts
             key={chartKey}
             option={chartOptions}
-            style={{ height: "617px" }}
+            style={{ height: "600px", width: '100%' }}
           />
-        </div>
+        ) : (
+          <div className="chart-placeholder">
+            <Loader />
+          </div>
+        )}
 
         <div className="date-filter">
           <label>
-            <input
-              type="radio"
-              value="All"
-              checked={selectedDateFilter === "All"}
-              onChange={handleDateFilterChange}
+            <input type="radio" value="All" checked={selectedDateFilter === "All"} onChange={handleDateFilterChange}
             />
             All Time
           </label>
           <label>
-            <input
-              type="radio"
-              value="LastYear"
-              checked={selectedDateFilter === "LastYear"}
-              onChange={handleDateFilterChange}
+            <input type="radio" value="LastYear" checked={selectedDateFilter === "LastYear"} onChange={handleDateFilterChange}
             />
             Last Year
           </label>
           <label>
-            <input
-              type="radio"
-              value="Last30Days"
-              checked={selectedDateFilter === "Last30Days"}
-              onChange={handleDateFilterChange}
+            <input type="radio" value="Last30Days" checked={selectedDateFilter === "Last30Days"} onChange={handleDateFilterChange}
             />
             Last 30 Days
           </label>

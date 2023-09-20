@@ -115,7 +115,9 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
       {data && data.length > 0 ? (
         <ReactECharts option={options} style={{ height: '600px', width: '100%' }} />
       ) : (
-        <Loader />
+        <div className="chart-placeholder">
+          <Loader />
+        </div>
       )}
     </div>
   );

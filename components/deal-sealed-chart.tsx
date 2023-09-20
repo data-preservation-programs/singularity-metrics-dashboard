@@ -113,7 +113,9 @@ const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
       {data && data[0] && data[0].data.length > 0 ? (
         <ReactECharts option={option} style={{ height: '600px', width: '100%' }} />
       ) : (
-        <Loader />
+        <div className="chart-placeholder">
+          <Loader />
+        </div>
       )}
     </div>
   );
