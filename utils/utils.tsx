@@ -31,9 +31,9 @@ function toAccumulative(
   return out;
 }
 
-function convertToTitleCase(str) {
+function convertToTitleCase(str:string) {
   if (!str) {
-    return "";
+    return '';
   }
 
   // Replace underscores with spaces and then convert to title case
