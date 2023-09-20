@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { CarRow, DealRow, VerifiedClient, Version } from '@/app/api/types';
 import byteSize from 'byte-size';
-import Loader from '@/components/loader';
+import { CarRow, DealRow, VerifiedClient, Version } from '@/app/api/types';
 import { mapToArray, toAccumulative } from '@/utils/utils';
 import { MonthlySealed } from '@utils/interfaces';
+import Loader from '@/components/loader';
 import BigNumbers from '@/components/big-numbers';
 import DataPreparedChart from '@/components/data-prepared-chart';
 import DealSealedChart from '@/components/deal-sealed-chart';

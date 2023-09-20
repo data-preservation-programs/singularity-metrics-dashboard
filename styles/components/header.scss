@@ -15,6 +15,9 @@
   width: fit-content;
   transition: 250ms ease;
   padding-top: 0.5rem;
+  img {
+    width: 100%;
+  }
   &:hover,
   &:focus-visible {
     transform: scale(1.08);
@@ -91,6 +94,9 @@
   justify-content: flex-end;
   padding-top: 0.5rem;
   margin-left: toRem(20);
+  @include medium {
+    margin-left: 0;
+  }
   @include transitionDefault;
   &:focus-within {
     @include focusOutline;
@@ -137,4 +143,7 @@
 
 main {
   padding-bottom: toRem(130);
+  @include medium {
+    padding-bottom: toRem(40);
+  }
 }

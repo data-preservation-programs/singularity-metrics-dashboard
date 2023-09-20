@@ -1,14 +1,37 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import byteSize from 'byte-size';
 import moment from 'moment';
-import { DealsChartProps } from '@utils/interfaces';
 import Loader from '@/components/loader';
+import { DealsChartProps } from '@utils/interfaces';
 import { chartColors, colorList, colorEndList } from '@/utils/colors';
 import { convertToTitleCase } from '@utils/utils';
 
 const DealsChart = ({ data, title }: DealsChartProps) => {
-  console.log(data)
+  const [chartHeight, setChartHeight] = useState('600px');
+
+  useEffect(() => {
+    const updateChartHeight = () => {
+      if (window.matchMedia('(max-width: 1024px)').matches) {
+        setChartHeight('450px');
+      } else {
+        setChartHeight('600px');
+      }
+    };
+
+    // Initial call to set the correct height
+    updateChartHeight();
+
+    // Attach event listener to window.matchMedia
+    const mediaQueryList = window.matchMedia('(max-width: 1024px)');
+    mediaQueryList.addListener(updateChartHeight);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      mediaQueryList.removeListener(updateChartHeight);
+    };
+  }, []);
+
   const option = {
     legend: {
       orient: 'vertical',
@@ -165,7 +188,7 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
     <div className="col-6_md-12">
       <h2>{title}</h2>
       {data && data.length > 0 ? (
-        <ReactECharts option={option} style={{ height: '600px', width: '100%' }} />
+        <ReactECharts option={option} style={{ height: chartHeight, width: '100%' }} />
       ) : (
         <div className="chart-placeholder">
           <Loader />

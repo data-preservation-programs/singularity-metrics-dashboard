@@ -74,3 +74,13 @@
         background-color: #CBDDBB;
     }
 }
+
+select {
+    margin-top: toRem(10);
+    width: 100%;
+    appearance: none;
+    border: 1px solid $olivine;
+    border-radius: toRem(5);
+    padding: toRem(10);
+    background-color: transparent;
+}

@@ -1,15 +1,38 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import byteSize from 'byte-size';
-import moment from 'moment';
-import { chartColors } from '@/utils/colors';
 import * as echarts from 'echarts';
+import moment from 'moment';
 import Loader from '@/components/loader';
+import { chartColors } from '@/utils/colors';
 import { DataPreparedChartProps } from '@utils/interfaces';
 
 const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
+  const [chartHeight, setChartHeight] = useState('600px');
   const xData = data && data[0] && data[0].data.map(entry => entry.x);
   const yData = data && data[0] && data[0].data.map(entry => entry.y);
+
+  useEffect(() => {
+    const updateChartHeight = () => {
+      if (window.matchMedia('(max-width: 1024px)').matches) {
+        setChartHeight('300px');
+      } else {
+        setChartHeight('600px');
+      }
+    };
+
+    // Initial call to set the correct height
+    updateChartHeight();
+
+    // Attach event listener to window.matchMedia
+    const mediaQueryList = window.matchMedia('(max-width: 1024px)');
+    mediaQueryList.addListener(updateChartHeight);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      mediaQueryList.removeListener(updateChartHeight);
+    };
+  }, []);
 
   const option = {
     tooltip: {
@@ -115,7 +138,7 @@ const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
     <div className="col-6_md-12">
       <h2>{title}</h2>
       {data && data[0] && data[0].data.length > 0 ? (
-        <ReactECharts option={option} style={{ height: '600px', width: '100%' }} />
+        <ReactECharts option={option} style={{ height: chartHeight, width: '100%' }} />
       ) : (
         <div className="chart-placeholder">
           <Loader />

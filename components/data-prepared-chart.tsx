@@ -1,12 +1,37 @@
+import { useEffect, useState } from 'react';
 import ReactECharts from 'echarts-for-react';
 import byteSize from 'byte-size';
 import * as echarts from 'echarts';
-import Loader from '@/components/loader';
 import moment from 'moment';
+import Loader from '@/components/loader';
 import { chartColors } from '@/utils/colors';
 import { DataPreparedChartProps } from '@/utils/interfaces';
 
 const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
+  const [chartHeight, setChartHeight] = useState('600px');
+
+  useEffect(() => {
+    const updateChartHeight = () => {
+      if (window.matchMedia('(max-width: 1024px)').matches) {
+        setChartHeight('300px');
+      } else {
+        setChartHeight('600px');
+      }
+    };
+
+    // Initial call to set the correct height
+    updateChartHeight();
+
+    // Attach event listener to window.matchMedia
+    const mediaQueryList = window.matchMedia('(max-width: 1024px)');
+    mediaQueryList.addListener(updateChartHeight);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      mediaQueryList.removeListener(updateChartHeight);
+    };
+  }, []);
+
   const options = {
     tooltip: {
       trigger: 'axis',
@@ -117,7 +142,7 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
     <div className="col-6_md-12">
       <h2>{title}</h2>
       {data && data.length > 0 ? (
-        <ReactECharts option={options} style={{ height: '600px', width: '100%' }} />
+        <ReactECharts option={options} style={{ height: chartHeight, width: '100%' }} />
       ) : (
         <div className="chart-placeholder">
           <Loader />

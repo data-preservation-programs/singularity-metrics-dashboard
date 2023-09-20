@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ReactECharts, { EChartsOption } from 'echarts-for-react';
+import moment from 'moment';
 import byteSize from 'byte-size';
 import { MonthlySealed } from '@utils/interfaces';
 import { chartColors, colorList, colorEndList } from '@/utils/colors';
-import moment from 'moment';
 import Loader from '@/components/loader';
 
 const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
