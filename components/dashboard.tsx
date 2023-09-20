@@ -279,17 +279,15 @@ export default function Dashboard() {
     </div>
 
     <div className="grid">
-        {dailySealed ? <DealSealedChart title="Daily Deal Sealed" data={dailySealed} /> : null }
-        {totalSealed ? <DealSealedChart title="Total Deal Sealed" data={totalSealed} /> : null }
+      {dailySealed ? <DealSealedChart title="Daily Deal Sealed" data={dailySealed} /> : null }
+      {totalSealed ? <DealSealedChart title="Total Deal Sealed" data={totalSealed} /> : null }
     </div>
 
     <div className="grid">
-        {dailyDeal ? <DealsChart title="Daily Deals" data={dailyDeal} /> : null }
-        {totalDeal ? <DealsChart title="Total Deals" data={totalDeal} /> : null }
+      {dailyDeal ? <DealsChart title="Daily Deals" data={dailyDeal} /> : null }
+      {totalDeal ? <DealsChart title="Total Deals" data={totalDeal} /> : null }
     </div>
 
-    <div className="grid">
-      {monthlySealed ? <MonthlyDeals monthlySealed={monthlySealed} /> : null }
-    </div>
+    {monthlySealed ? <MonthlyDeals monthlySealed={monthlySealed} /> : null }
   </>);
 }

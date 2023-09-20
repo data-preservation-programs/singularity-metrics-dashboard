@@ -4,16 +4,15 @@ import byteSize from 'byte-size';
 import moment from 'moment';
 import { DealsChartProps } from '@utils/interfaces';
 import Loader from '@/components/loader';
-import { chartColors } from '@/utils/colors';
+import { chartColors, colorList, colorEndList } from '@/utils/colors';
 import { convertToTitleCase } from '@utils/utils';
 
 const DealsChart = ({ data, title }: DealsChartProps) => {
 
-  const customColors = [chartColors.green, chartColors.pink, chartColors.gray, chartColors.orange, chartColors.purple, chartColors.blue];
-
   const option = {
     legend: {
       orient: 'vertical',
+      top: 18,
       left: '11%',
       data: data.map(item => item.id),
       icon: 'rect', //"image://data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='16' height='16' fill='%23A7C889'/%3E%3C/svg%3E%0A",
@@ -34,7 +33,31 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
         show: true,
         type: 'slider',
         start: 92,
-        end: 100
+        end: 100,
+        fillerColor: chartColors.greenEnd,
+        selectedDataBackground: {
+          lineStyle: {
+            color: chartColors.green
+          },
+          areaStyle: {
+            color: chartColors.green,
+            opacity: .15
+          }
+        },
+        bottom: 15,
+        brushStyle: {
+          color: chartColors.greenEnd,
+        },
+        emphasis: {
+          handleStyle: {
+            color: chartColors.sliderHandleGreen,
+            borderColor: chartColors.sliderHandleGreen
+          },
+          moveHandleStyle: {
+            color: chartColors.sliderHandleGreen,
+            borderColor: chartColors.sliderHandleGreen
+          }
+        }
       },
     ],
     tooltip: {
@@ -48,18 +71,20 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
         fontWeight: 500,
         lineHeight: 18
       },
-      formatter: (params:any) => {
-        let tooltip = '';
-        params.forEach((param:any) => {
-          tooltip += `${param.marker} ${convertToTitleCase(param.seriesName)}: ${byteSize(param.value).toString()}<br />`;
-        });
-        return tooltip;
-      }
+      // formatter: (params:any) => {
+      //   let tooltip = '';
+      //   params.forEach((param:any) => {
+      //     tooltip += `${param.marker} ${convertToTitleCase(param.seriesName)}: ${byteSize(param.value).toString()}<br />`;
+      //   });
+      //   return tooltip;
+      // }
     },
     grid: {
-      top: '25px',
-      right: '15px',
-      bottom: '35px',
+      top: 25,
+      right: 15,
+      left: 15,
+      bottom: 60,
+      containLabel: true
     },
     xAxis: {
       data: data && data[0] && data[0].data.map(dataItem => dataItem.x),
@@ -75,13 +100,15 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
         },
       },
       axisLabel: {
+        // showMinLabel: false,
+        // showMaxLabel: false,
+        hideOverlap: true,
         margin: 10,
         textStyle: {
           color: chartColors.axisLabelTextColor,
         },
-        interval: 200,
         formatter: function (value:any) {
-          return moment(value).format('YYYY/MM/DD');
+          return moment(value).format('MMM d YYYY');
         }
       },
     },
@@ -101,7 +128,7 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
           color: chartColors.axisLabelTextColor,
         },
         formatter: function (value:any) {
-          return byteSize(value).toString();
+          return byteSize(value, { precision: 0 }).toString();
         },
       },
     },
@@ -112,7 +139,23 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
       stack: 'stack',
       showSymbol: false,
       itemStyle: {
-        color: customColors[index % customColors.length]
+        color: {
+          type: 'linear',
+          x: 0, // Start position for the gradient
+          y: 0, // End position for the gradient
+          x2: 0, // Start position for the gradient
+          y2: 1, // End position for the gradient
+          colorStops: [
+            {
+              offset: 0,
+              color: colorList[index % colorList.length],
+            },
+            {
+              offset: 1,
+              color: colorEndList[index % colorEndList.length],
+            },
+          ],
+        },
       },
     }))
   };

@@ -1,22 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import ReactECharts, { EChartsOption } from 'echarts-for-react';
-import byteSize from "byte-size";
+import byteSize from 'byte-size';
 import { MonthlySealed } from '@utils/interfaces';
-import { chartColors } from '@/utils/colors';
+import { chartColors, colorList, colorEndList } from '@/utils/colors';
 import moment from 'moment';
 import Loader from '@/components/loader';
 
 const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
-  const [selectedClient, setSelectedClient] = useState("All");
-  const [selectedDateFilter, setSelectedDateFilter] = useState("All");
+  const [selectedClient, setSelectedClient] = useState('All');
   const [chartOptions, setChartOptions] = useState<EChartsOption>(getInitialChartOptions());
   const [chartKey, setChartKey] = useState(0);
-  const customColors = [chartColors.green, chartColors.pink, chartColors.gray, chartColors.orange, chartColors.purple, chartColors.blue];
-  const customColorsEnd = [chartColors.greenEnd, chartColors.pinkEnd, chartColors.grayEnd, chartColors.orangeEnd, chartColors.purpleEnd, chartColors.blueEnd];
 
   useEffect(() => {
+    setChartKey(0);
     const updateChartOptions = () => {
-      const filteredData = filterDataByDate(monthlySealed.barData, selectedDateFilter);
       const newChartOptions: EChartsOption = {
         tooltip: {
           trigger: 'axis',
@@ -36,19 +33,52 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
               // Check if the data point value is not equal to 0
               if (item.data !== 0) {
                 tooltipContent.push(
-                  `${item.marker} ${item.seriesName}: ${byteSize(item.data).toString()}`
+                  `${item.marker} ${item.seriesName.trim()}: ${byteSize(item.data).toString()}`
                 );
               }
             });
             return tooltipContent.join('<br>');
           },
         },
-        dataZoom: {
-          show: true,
-          type: 'slider'
+        grid: {
+          top: 25,
+          right: 15,
+          left: 15,
+          bottom: 60,
+          containLabel: true
         },
+        dataZoom: [
+          {
+            show: true,
+            type: 'slider',
+            fillerColor: chartColors.greenEnd,
+            selectedDataBackground: {
+              lineStyle: {
+                color: chartColors.green
+              },
+              areaStyle: {
+                color: chartColors.green,
+                opacity: .15
+              }
+            },
+            bottom: 15,
+            brushStyle: {
+              color: chartColors.greenEnd,
+            },
+            emphasis: {
+              handleStyle: {
+                color: chartColors.sliderHandleGreen,
+                borderColor: chartColors.sliderHandleGreen
+              },
+              moveHandleStyle: {
+                color: chartColors.sliderHandleGreen,
+                borderColor: chartColors.sliderHandleGreen
+              }
+            }
+          },
+        ],
         xAxis: {
-          data: filteredData.map((item) => item.month),
+          data: monthlySealed.barData.map((item) => item.month),
           axisTick: false,
           type: 'category',
           splitLine: {
@@ -66,7 +96,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
               color: chartColors.axisLabelTextColor,
             },
             formatter: function (value:any) {
-              return moment(value).format('YYYY/MM/DD');
+              return moment(value).format('MMM YYYY');
             }
           },
         },
@@ -89,7 +119,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
               color: chartColors.axisLabelTextColor,
             },
             formatter: function (value:any) {
-              return byteSize(value).toString();
+              return byteSize(value, { precision: 0 }).toString();
             },
           },
         },
@@ -109,16 +139,16 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
                     colorStops: [
                       {
                         offset: 0,
-                        color: customColors[index % customColors.length],
+                        color: colorList[index % colorList.length],
                       },
                       {
                         offset: 1,
-                        color: customColorsEnd[index % customColors.length],
+                        color: colorEndList[index % colorEndList.length],
                       },
                     ],
                   },
                 },
-                data: filteredData.map((item) => item[key] || 0),
+                data: monthlySealed.barData.map((item) => item[key] || 0),
               }))
             : [
                 {
@@ -144,7 +174,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
                       ],
                     },
                   },
-                data: filteredData.map(
+                data: monthlySealed.barData.map(
                   (item) => item[selectedClient] || 0
                 ),
               },
@@ -154,15 +184,12 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
     };
 
     updateChartOptions();
-  }, [selectedClient, selectedDateFilter, monthlySealed]);
+  }, [selectedClient, monthlySealed]);
 
   function getInitialChartOptions() {
     return {
       tooltip: {
         trigger: 'axis',
-        axisPointer: {
-          type: 'shadow',
-        },
       },
       xAxis: {
         type: 'category',
@@ -178,95 +205,61 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
     };
   }
 
-  const filterDataByDate = (data: any[], filter: string) => {
-    switch (filter) {
-      case "LastYear":
-        const lastYearStart = moment().subtract(1, "year").startOf("year");
-        const lastYearEnd = moment().subtract(1, "year").endOf("year");
-        return data.filter(item =>
-          moment(item.month).isBetween(lastYearStart, lastYearEnd, undefined, "[]")
-        );
-      case "Last30Days":
-        const last30DaysStart = moment().subtract(30, "days").startOf("day");
-        return data.filter(item => moment(item.month).isSameOrAfter(last30DaysStart));
-      default:
-        return data;
-    }
-  };
-
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedClient(event.target.value);
     setChartKey(chartKey + 1);
   };
 
-  const handleDateFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedDateFilter(event.target.value);
-    setChartKey(chartKey + 1);
-  };
-
   return (
     <>
-      <div className="col-12">
-        <h2>Monthly Deals Sealed by Client</h2>
-      </div>
-      <div className="col-3_md-12 client-c">
-        <label>Select a client</label>
-        <div className="client-list">
-          {monthlySealed && monthlySealed.keys.length ? <>
-            <label>
-              <input
-                type="radio"
-                value="All"
-                checked={selectedClient === "All"}
-                onChange={handleRadioChange}
-              />
-              All
-            </label>
-            {monthlySealed.keys.map((key) => (
-              <label key={key}>
-                <input
-                  type="radio"
-                  value={key}
-                  checked={selectedClient === key}
-                  onChange={handleRadioChange}
-                />
-                {key}
-              </label>
-            ))}
-          </> : <Loader /> }
+      <div className="grid">
+        <div className="col-12">
+          <h2>Monthly Deals Sealed by Client</h2>
         </div>
       </div>
-      <div className="col-9_md-12">
-        {monthlySealed && monthlySealed.barData.length ? (
-          <ReactECharts
-            key={chartKey}
-            option={chartOptions}
-            style={{ height: "600px", width: '100%' }}
-          />
-        ) : (
-          <div className="chart-placeholder">
-            <Loader />
+      <div className="grid">
+        <div className="col-3_md-12">
+          <div className="client-c">
+            <label>Select a client</label>
+            <div className="client-list">
+              {monthlySealed && monthlySealed.keys.length ? <>
+                <label>
+                  <input
+                    type="radio"
+                    value="All"
+                    checked={selectedClient === "All"}
+                    onChange={handleRadioChange}
+                  />
+                  All
+                </label>
+                {monthlySealed.keys.map((key) => (
+                  <label key={key}>
+                    <input
+                      type="radio"
+                      value={key}
+                      checked={selectedClient === key}
+                      onChange={handleRadioChange}
+                    />
+                    {key.trim()}
+                  </label>
+                ))}
+              </> : <Loader /> }
+            </div>
           </div>
-        )}
-
-        <div className="date-filter">
-          <label>
-            <input type="radio" value="All" checked={selectedDateFilter === "All"} onChange={handleDateFilterChange}
-            />
-            All Time
-          </label>
-          <label>
-            <input type="radio" value="LastYear" checked={selectedDateFilter === "LastYear"} onChange={handleDateFilterChange}
-            />
-            Last Year
-          </label>
-          <label>
-            <input type="radio" value="Last30Days" checked={selectedDateFilter === "Last30Days"} onChange={handleDateFilterChange}
-            />
-            Last 30 Days
-          </label>
         </div>
-
+        <div className="col-9_md-12">
+          {monthlySealed && monthlySealed.barData.length ? (
+            <ReactECharts
+              key={chartKey}
+              option={chartOptions}
+              style={{ height: "600px", width: '100%' }}
+            />
+          ) : (
+            <div className="chart-placeholder">
+              <Loader />
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

@@ -30,9 +30,11 @@ const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
       },
     },
     grid: {
-      top: '25px',
-      right: '15px',
-      bottom: '35px',
+      top: 25,
+      right: 15,
+      left: 15,
+      bottom: 25,
+      containLabel: true
     },
     xAxis: {
       data: xData,
@@ -48,13 +50,15 @@ const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
         },
       },
       axisLabel: {
+        showMinLabel: false,
+        hideOverlap: true,
         margin: 10,
         textStyle: {
           color: chartColors.axisLabelTextColor,
         },
-        interval: 200,
+        // interval: 200,
         formatter: function (value:any) {
-          return moment(value).format('YYYY/MM/DD'); // Format date to 'YYYY/MM/DD'
+          return moment(value).format('MMM YYYY');
         }
       },
     },
@@ -74,7 +78,7 @@ const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
           color: chartColors.axisLabelTextColor,
         },
         formatter: function (value:any) {
-          return byteSize(value).toString();
+          return byteSize(value, { precision: 0 }).toString();
         },
       },
     },

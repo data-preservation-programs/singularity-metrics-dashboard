@@ -1,4 +1,5 @@
 .card {
+  position: relative;
   --border-gradient-angle: 0deg;
   @include medium {
     --border-gradient-angle: 45deg;

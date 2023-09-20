@@ -9,7 +9,7 @@
     background-color: $codGray2;
     padding: toRem(10);
     margin-bottom: toRem(22);
-    height: 600px;
+    height: toRem(600);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,7 +20,7 @@
     background-color: $codGray2;
     padding: toRem(22);
     .client-list {
-        height: 620px;
+        height: toRem(525);
         overflow-y: scroll;
         @include medium {
             height: auto;

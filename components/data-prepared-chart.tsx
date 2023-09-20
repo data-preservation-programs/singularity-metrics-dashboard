@@ -4,7 +4,7 @@ import * as echarts from 'echarts';
 import Loader from '@/components/loader';
 import moment from 'moment';
 import { chartColors } from '@/utils/colors';
-import { DataPreparedChartProps } from '@utils/interfaces';
+import { DataPreparedChartProps } from '@/utils/interfaces';
 
 const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
   const options = {
@@ -29,9 +29,11 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
       },
     },
     grid: {
-      top: '25px',
-      right: '15px',
-      bottom: '35px',
+      top: 25,
+      right: 15,
+      left: 15,
+      bottom: 25,
+      containLabel: true
     },
     xAxis: {
       axisTick: false,
@@ -46,13 +48,15 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
         },
       },
       axisLabel: {
+        showMinLabel: false,
+        hideOverlap: true,
         margin: 10,
         textStyle: {
           color: chartColors.axisLabelTextColor,
         },
-        interval: 200,
+        // interval: 200,
         formatter: function (value:any) {
-          return moment(value).format('YYYY/MM/DD');
+          return moment(value).format('MMM YYYY');
         }
       },
     },
@@ -72,7 +76,7 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
           color: chartColors.axisLabelTextColor,
         },
         formatter: function (value:any) {
-          return byteSize(value).toString();
+          return byteSize(value, { precision: 0 }).toString();
         },
       },
     },
