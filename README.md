@@ -1,13 +1,12 @@
-# Singularity metrics dashboard
+# Singularity Dashboard
 
 ![Singularity metrics dashboard graph image](public/images/open-graph.png)
-
 
 This repo contains a frontend dashboard for metrics on Singularity.
 
 ## Stack
 
-- This is a [Next js](https://nextjs.org/) project made in Typescript
+- This is a [Next js](https://nextjs.org) project made in Typescript
 - A serverless function facilitates communication with the database
 - Both the site and the serverless function are deployed via Vercel
 
@@ -17,7 +16,7 @@ This repo contains a frontend dashboard for metrics on Singularity.
 - After cloning the repo, you'll need to create a `.env` file with the Mongo connection string `MONGODB_URI=mongodb+srv://.../?readPreference=secondaryPreferred`
 - After that, install dependencies: `npm ci`
 - And finally, run the app in dev mode `npm run dev`
-- Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
+- Open [http://localhost:10170](http://localhost:10170) with your browser to see the result
 
 ## Deployment
 
@@ -31,7 +30,6 @@ To deploy to production or via CI:
 
 - Use the following docker container `node:16.14.0`
 - Run `npm ci && npm run build && npm run start`
-- Serve the `/out` directory, which will contain the static frontend
 
 Production deployment happens automatically as long as builds pass and production PRs are made against the `main` branch.
 
