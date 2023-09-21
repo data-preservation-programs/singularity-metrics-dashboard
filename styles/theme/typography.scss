@@ -12,14 +12,16 @@ $fontAssetPath: '/fonts';
 // -------------------------------------------------------- Suisse International
 @font-face {
   font-family: 'SuisseIntl';
-  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Light.otf') format('opentype');
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Light.woff2') format('woff2'),
+        url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'SuisseIntl';
-  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Regular.otf') format('opentype');
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Regular.woff2') format('woff2'),
+        url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
 }
@@ -33,28 +35,32 @@ $fontAssetPath: '/fonts';
 
 @font-face {
   font-family: 'SuisseIntl';
-  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Medium.otf') format('opentype');
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Medium.woff2') format('woff2'),
+      url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Medium.woff') format('woff');
   font-weight: 500;
   font-style: bold;
 }
 
 @font-face {
   font-family: 'SuisseIntl';
-  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-MediumItalic.otf') format('opentype');
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-MediumItalic.woff2') format('woff2'),
+        url('#{$fontAssetPath}/suisse-intl/SuisseIntl-MediumItalic.woff') format('woff');
   font-weight: 500;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'SuisseIntl';
-  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-SemiBold.otf') format('opentype');
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-SemiBold.woff2') format('woff2'),
+        url('#{$fontAssetPath}/suisse-intl/SuisseIntl-SemiBold.woff') format('woff');
   font-weight: 600;
   font-style: bold;
 }
 
 @font-face {
   font-family: 'SuisseIntl';
-  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Bold.otf') format('opentype');
+  src: url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Bold.woff2') format('woff2'),
+        url('#{$fontAssetPath}/suisse-intl/SuisseIntl-Bold.woff') format('woff');
   font-weight: 700;
   font-style: bold;
 }

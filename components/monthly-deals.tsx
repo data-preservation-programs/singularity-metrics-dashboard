@@ -237,7 +237,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
               <label>Select a client</label>
               <select
                 value={selectedClient}
-                onChange={(e) => setSelectedClient(e.target.value)}
+                onChange={handleRadioChange}
               >
                 <option value="All">All</option>
                 {monthlySealed.keys.map((key) => (

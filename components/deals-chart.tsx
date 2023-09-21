@@ -41,6 +41,7 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
       icon: 'rect', //"image://data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='16' height='16' fill='%23A7C889'/%3E%3C/svg%3E%0A",
       padding: 15,
       borderRadius: 5,
+      borderColor: chartColors.gridLineColor,
       backgroundColor: chartColors.legendBg,
       itemGap: 5,
       textStyle: {
