@@ -47,6 +47,7 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
       textStyle: {
         color: chartColors.axisLabelTextColor,
         fontSize: 14,
+        fontFamily: 'SuisseIntl',
         fontWeight: 500,
         lineHeight: 17,
         padding: [0,0,0,6]
@@ -75,6 +76,9 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
         brushStyle: {
           color: chartColors.greenEnd,
         },
+        textStyle: {
+          fontFamily: 'SuisseIntl',
+        },
         emphasis: {
           handleStyle: {
             color: chartColors.sliderHandleGreen,
@@ -93,6 +97,7 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
       borderColor: chartColors.tooltipBgTransparent,
       padding: [3, 10],
       textStyle: {
+        fontFamily: 'SuisseIntl',
         color: chartColors.axisLabelTextColor,
         fontSize: 12,
         fontWeight: 500,
@@ -127,11 +132,13 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
         },
       },
       axisLabel: {
+        fontFamily: 'SuisseIntl',
         hideOverlap: true,
         margin: 10,
-        textStyle: {
-          color: chartColors.axisLabelTextColor,
-        },
+        fontSize: 12,
+        fontWeight: 500,
+        lineHeight: 27,
+        color: chartColors.axisLabelTextColor,
         formatter: function (value:any) {
           return moment(value).format('MMM D, YYYY');
         }
@@ -149,9 +156,11 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
         show: false,
       },
       axisLabel: {
-        textStyle: {
-          color: chartColors.axisLabelTextColor,
-        },
+        fontFamily: 'SuisseIntl',
+        fontSize: 12,
+        fontWeight: 500,
+        lineHeight: 27,
+        color: chartColors.axisLabelTextColor,
         formatter: function (value:any) {
           return byteSize(value, { precision: 0 }).toString();
         },

@@ -25,6 +25,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
           borderColor: chartColors.tooltipBgTransparent,
           padding: [3, 10],
           textStyle: {
+            fontFamily: 'SuisseIntl',
             color: chartColors.axisLabelTextColor,
             fontSize: 12,
             fontWeight: 500,
@@ -69,6 +70,9 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
             brushStyle: {
               color: chartColors.greenEnd,
             },
+            textStyle: {
+              fontFamily: 'SuisseIntl',
+            },
             emphasis: {
               handleStyle: {
                 color: chartColors.sliderHandleGreen,
@@ -96,9 +100,11 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
           },
           axisLabel: {
             margin: 10,
-            textStyle: {
-              color: chartColors.axisLabelTextColor,
-            },
+            fontFamily: 'SuisseIntl',
+            color: chartColors.axisLabelTextColor,
+            fontSize: 12,
+            fontWeight: 500,
+            lineHeight: 18,
             formatter: function (value:any) {
               return moment(value).format('MMM YYYY');
             }
@@ -119,9 +125,11 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
             },
           },
           axisLabel: {
-            textStyle: {
-              color: chartColors.axisLabelTextColor,
-            },
+            fontFamily: 'SuisseIntl',
+            fontSize: 12,
+            fontWeight: 500,
+            lineHeight: 27,
+            color: chartColors.axisLabelTextColor,
             formatter: function (value:any) {
               return byteSize(value, { precision: 0 }).toString();
             },

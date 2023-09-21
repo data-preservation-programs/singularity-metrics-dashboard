@@ -39,6 +39,7 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
       borderColor: chartColors.tooltipBgGreen,
       padding: [3, 10],
       textStyle: {
+        fontFamily: 'SuisseIntl',
         color: chartColors.tooltipColor,
         fontSize: 12,
         fontWeight: 500,
@@ -73,12 +74,14 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
         },
       },
       axisLabel: {
+        fontFamily: 'SuisseIntl',
         showMinLabel: false,
         hideOverlap: true,
         margin: 10,
-        textStyle: {
-          color: chartColors.axisLabelTextColor,
-        },
+        fontSize: 12,
+        fontWeight: 500,
+        lineHeight: 27,
+        color: chartColors.axisLabelTextColor,
         // interval: 200,
         formatter: function (value:any) {
           return moment(value).format('MMM YYYY');
@@ -97,9 +100,11 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
         show: false,
       },
       axisLabel: {
-        textStyle: {
-          color: chartColors.axisLabelTextColor,
-        },
+        fontFamily: 'SuisseIntl',
+        fontSize: 12,
+        fontWeight: 500,
+        lineHeight: 27,
+        color: chartColors.axisLabelTextColor,
         formatter: function (value:any) {
           return byteSize(value, { precision: 0 }).toString();
         },
@@ -127,9 +132,11 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
       },
       itemStyle: {
         color: index === 0 ? chartColors.green : chartColors.orange,
-        emphasis: {
-          color: index === 0 ? chartColors.green : chartColors.orange,
-        },
+      },
+      emphasis: {
+        itemStyle: {
+          color: index === 0 ? chartColors.green : chartColors.orange
+        }
       },
       lineStyle: {
         color: index === 0 ? chartColors.green : chartColors.orange,
