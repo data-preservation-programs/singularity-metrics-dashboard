@@ -7,48 +7,51 @@ const client = new MongoClient(process.env.MONGODB_URI!)
 export type GlobalCacheKey = 'carsGlobal' | 'dealsGlobal'
 
 export async function getDealsTimeSeries(): Promise<DealRow[]> {
-  const cachedData = getCache('dealsTimeSeries')
-  if (cachedData) {
-    return cachedData
-  }
-
-  const documents = await client.db('singularity').collection('dealsTimeSeries').find({}).sort({date: 1}).toArray()
-  console.log("Got time series for deals", documents.length)
-  const data = documents.map((doc) => {
-    if (doc.qap instanceof Long) {
-      doc.qap = doc.qap.toNumber()
+    const cachedData = getCache('dealsTimeSeries')
+    if (cachedData) {
+      console.log("Cache hit for dealsTimeSeries") // Log cache hit
+      return cachedData
     }
-    return doc
-  }) as any
 
-  setCache('dealsTimeSeries', data)
-  return data
+    console.log("Fetching dealsTimeSeries from database") // Log database fetch
+    const documents = await client.db('singularity').collection('dealsTimeSeries').find({}).sort({date: 1}).toArray()
+    const data = documents.map((doc) => {
+      if (doc.qap instanceof Long) {
+        doc.qap = doc.qap.toNumber()
+      }
+      return doc
+    }) as any
+  
+    setCache('dealsTimeSeries', data)
+    return data
 }
 
 export async function getCarsTimeSeries(): Promise<CarRow[]> {
-  const cachedData = getCache('carsTimeSeries')
-  if (cachedData) {
-    return cachedData
-  }
+    const cachedData = getCache('carsTimeSeries')
+    if (cachedData) {
+        console.log("Cache hit for carsTimeSeries") // Log cache hit
+        return cachedData
+    }
 
-  const documents = await client.db('singularity').collection('carsTimeSeries').find({}).sort({date: 1}).toArray()
-  console.log("Got time series for cars", documents.length)
-  const data = documents as any
+    console.log("Fetching carsTimeSeries from database") // Log database fetch
+    const documents = await client.db('singularity').collection('carsTimeSeries').find({}).sort({date: 1}).toArray()
+    const data = documents as any
 
-  setCache('carsTimeSeries', data)
-  return data
+    setCache('carsTimeSeries', data)
+    return data
 }
 
 export async function getVerifiedClients(): Promise<VerifiedClient[]> {
-  const cachedData = getCache('verifiedClients')
-  if (cachedData) {
-    return cachedData
-  }
-
-  const documents = await client.db('singularity').collection('verifiedClients').find({}).toArray()
-  console.log("Got verified clients", documents.length)
-  const data = documents as any
-
-  setCache('verifiedClients', data)
-  return data
+    const cachedData = getCache('verifiedClients')
+    if (cachedData) {
+        console.log("Cache hit for verifiedClients") // Log cache hit
+        return cachedData
+    }
+  
+    console.log("Fetching verifiedClients from database") // Log database fetch
+    const documents = await client.db('singularity').collection('verifiedClients').find({}).toArray()
+    const data = documents as any
+  
+    setCache('verifiedClients', data)
+    return data
 }
