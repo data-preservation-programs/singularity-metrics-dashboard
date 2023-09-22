@@ -1,0 +1,86 @@
+// global
+.echarts-for-react {
+    background-color: $codGray2;
+    padding: toRem(10);
+    margin-bottom: toRem(37);
+}
+
+.chart-placeholder {
+    background-color: $codGray2;
+    padding: toRem(10);
+    margin-bottom: toRem(22);
+    height: toRem(600);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// monthly chart
+.client-c {
+    background-color: $codGray2;
+    padding: toRem(22);
+    height: toRem(600);
+    @include medium {
+        height: auto;
+    }
+    .client-list {
+        margin-top: toRem(20);
+        height: toRem(525);
+        overflow-y: scroll;
+        @include medium {
+            height: auto;
+            overflow: auto;
+        }
+    }
+}
+
+.date-filter {
+    position: relative;
+    margin-top: toRem(30);
+}
+
+
+// radio
+.custom-radio {
+    display: block;
+    position: relative;
+    padding-left: toRem(24);
+    margin-bottom: toRem(14);
+    cursor: pointer;
+    input[type="radio"] {
+        display: none;
+    }
+}
+
+.custom-radio-button {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(141, 141, 141, 1);
+    border-radius: 50%;
+}
+
+.custom-radio input[type="radio"]:checked + .custom-radio-button {
+    &:after {
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        border-radius: 100%;
+        content: '';
+        width: 6px;
+        height: 6px;
+        background-color: #CBDDBB;
+    }
+}
+
+select {
+    margin-top: toRem(10);
+    width: 100%;
+    appearance: none;
+    border: 1px solid $olivine;
+    border-radius: toRem(5);
+    padding: toRem(10);
+    background-color: transparent;
+}

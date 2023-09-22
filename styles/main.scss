@@ -1,0 +1,16 @@
+/**
+ * This file should only contain imports. It is responsible for importing global
+ * SCSS.
+ *
+ * This file is imported in:
+ *    nuxt.config → css
+ */
+
+@import 'core/core';
+@import 'theme/theme';
+
+// components
+@import 'components/header';
+@import 'components/cards';
+@import 'components/charts';
+@import 'components/loader';

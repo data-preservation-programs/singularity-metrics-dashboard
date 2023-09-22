@@ -1,0 +1,231 @@
+.markdown, .markdown-user-input {
+  // ================================================================ Typography
+  h1, h2, h3, h4, h5, h6 {
+    + ul, + ol {
+      margin-top: 2rem;
+    }
+  }
+
+  h1 {
+    margin: 0 0 3rem;
+  }
+
+  h1,
+  h1 > .heading-anchor {
+    @include h1;
+  }
+
+  h2 {
+    @include h2;
+  }
+
+  h3 {
+    @include h3;
+  }
+
+  h4 {
+    @include h4;
+  }
+
+  h5 {
+    @include h5;
+  }
+
+  h6 {
+    @include h5;
+  }
+
+  p {
+    @include p1;
+    &:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  a {
+    @include b2;
+  }
+
+  h1.heading-anchor > a,
+  h2.heading-anchor > a,
+  h3.heading-anchor > a,
+  h4.heading-anchor > a,
+  h5.heading-anchor > a,
+  h6.heading-anchor > a {
+    display: block;
+    @include h2;
+    margin-bottom: toRem(20);
+    color: var(--primary-text-color);
+  }
+
+  h1.heading-anchor > a {
+    @include h1;
+  }
+
+  h2.heading-anchor > a {
+    @include h2;
+  }
+
+  h3.heading-anchor > a {
+    @include h3;
+  }
+
+  h4.heading-anchor > a {
+    @include h4;
+  }
+
+  h5.heading-anchor > a {
+    @include h5;
+  }
+
+  h6.heading-anchor > a {
+    @include h5;
+  }
+
+  // =================================================================== General
+  hr {
+    margin-bottom: 2rem;
+    border: solid 1px var(--secondary-background-color);
+  }
+
+  pre,
+  code {
+    background-color: var(--code-background-color);
+    color: var(--code-text-color);
+    padding: toRem(30) toRem(29) toRem(22) toRem(29);
+    margin-bottom: 1.25rem;
+    border-radius: 0.625rem;
+    font-size: 0.75rem;
+  }
+
+  pre code {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+  }
+
+  code {
+    @include inlineCode;
+    &::-moz-selection { background: var(--code-background-color); color: var(--code-text-color); }
+    &::selection { background: var(--code-background-color); color: var(--code-text-color); }
+  }
+
+  // ===================================================================== Lists
+  ul, ol {
+    &:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  ul {
+    li {
+      list-style-type: none;
+      position: relative;
+      padding-left: toRem(22);
+      margin: 0;
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0.5rem;
+        top: 0.875rem;
+        width: 5px;
+        height: 5px;
+        margin: 0;
+        transform: translateY(-25%);
+        border-radius: 50%;
+        background-color: var(--primary-text-color);
+      }
+    }
+  }
+
+  li > ul {
+    margin-top: 0;
+  }
+
+  li > ul > li {
+    &:before {
+      background-color: transparent;
+      border: solid 1px var(--primary-text-color);
+    }
+  }
+
+  // ==================================================== Callouts / BlockQuotes
+  blockquote {
+    margin: 2rem toRem(42);
+  }
+  blockquote > blockquote {
+    margin: 0;
+  }
+  blockquote > blockquote > blockquote {
+    margin: 0 toRem(-42);
+    padding: toRem(21) toRem(23);
+    border-radius: toRem(10);
+    background-color: var(--secondary-background-color);
+    p {
+      @include h4;
+      margin-bottom: toRem(9);
+    }
+    ul {
+      margin-bottom: toRem(3);
+    }
+    li {
+      position: relative;
+      padding-left: toRem(22);
+      margin: 0;
+      @include p2;
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0.5rem;
+        top: 0.625rem;
+        width: 4px;
+        height: 4px;
+        margin: 0;
+        border-radius: 50%;
+        background-color: var(--primary-text-color);
+      }
+    }
+  }
+
+  // ==================================================================== Tables
+  table {
+    border-top: solid 2px var(--divider);
+    border-bottom: solid 2px var(--divider);
+    margin-bottom: 1.25rem;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: toRem(4) toRem(122) toRem(4) toRem(14);
+  }
+
+  th {
+    @include h5;
+    padding-top: 0.5rem;
+  }
+
+  td {
+    @include p2;
+  }
+
+  thead > tr {
+    background-color: var(--primary-background-color);
+  }
+
+  tbody > tr {
+    &:nth-child(odd) {
+      background-color: var(--secondary-background-color);
+    }
+    &:nth-child(even) {
+      background-color: var(--primary-background-color);
+    }
+    &:last-child {
+      td {
+        padding-bottom: 0.5rem;
+      }
+    }
+  }
+}

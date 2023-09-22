@@ -1,0 +1,56 @@
+.card {
+  position: relative;
+  --border-gradient-angle: 0deg;
+  @include medium {
+    --border-gradient-angle: 45deg;
+  }
+  @include cardPanel(var(--border-gradient-angle));
+  padding: toRem(20) toRem(20);
+  .content {
+    position: relative;
+    z-index: 2;
+  }
+  h4 {
+    padding-left: toRem(5);
+  }
+}
+
+.card-wrapper:nth-child(1) .card {
+  --border-gradient-angle: 135deg;
+  @include medium {
+    --border-gradient-angle: 45deg;
+  }
+}
+
+.card-wrapper:nth-child(2) .card,
+.card-wrapper:nth-child(3) .card {
+  --border-gradient-angle: 180deg;
+  @include medium {
+    --border-gradient-angle: 45deg;
+  }
+}
+
+.card-wrapper:nth-child(4) .card {
+  --border-gradient-angle: 225deg;
+  @include medium {
+    --border-gradient-angle: 45deg;
+  }
+}
+
+.card-wrapper:nth-child(5) .card {
+  --border-gradient-angle: 45deg;
+  @include medium {
+    --border-gradient-angle: 45deg;
+  }
+}
+
+.card-wrapper:nth-child(8) .card {
+  --border-gradient-angle: 315deg;
+  @include medium {
+    --border-gradient-angle: 45deg;
+  }
+}
+
+.big-numbers {
+  padding-bottom: toRem(44);
+}

@@ -1,0 +1,23 @@
+/**
+ * This file should only contain imports and stable, portable and long-lasting
+ * SCSS declarations.
+ */
+
+//////////////////////////////////////////////////////////////////////// Imports
+//------------------------------------------------------------------------------
+@import 'normalize';
+@import 'grid/gridlex-2.7.1';
+@import 'reset';
+@import 'layout-grid';
+
+//////////////////////////////////////////////////////////////////////// General
+//------------------------------------------------------------------------------
+html,
+body {
+  &.no-scroll {
+    overflow-y: hidden;
+  }
+  &.no-cursor {
+    cursor: none;
+  }
+}

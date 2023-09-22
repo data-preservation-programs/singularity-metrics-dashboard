@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "",
     "target": "es2015",
     "lib": [
       "dom",
@@ -30,6 +31,8 @@
       }
     ],
     "paths": {
+      "@styles/*": ["styles/*"],
+      "@utils/*": ["utils/*"],
       "@/*": [
         "./*"
       ]
