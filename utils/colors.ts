@@ -18,7 +18,8 @@ export const chartColors = {
   tooltipBgOrange: '#FFD19A',
   tooltipBgTransparent: 'rgba(25, 25, 25, 0.90)',
   sliderHandleGreen: '#CBDDBB',
-  legendBg: 'rgba(35, 35, 35, .7)'
+  legendBg: 'rgba(35, 35, 35, .7)',
+  hoverDottedLines: '#42494D'
 };
 
 export const colorList = [chartColors.blue, chartColors.purple, chartColors.orange, chartColors.gray, chartColors.pink, chartColors.green];

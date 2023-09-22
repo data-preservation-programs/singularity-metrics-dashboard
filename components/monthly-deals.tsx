@@ -44,6 +44,11 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
             });
             return tooltipContent.join('<br>');
           },
+          axisPointer: {
+            lineStyle: {
+              color: chartColors.hoverDottedLines
+            }
+          }
         },
         grid: {
           top: 25,

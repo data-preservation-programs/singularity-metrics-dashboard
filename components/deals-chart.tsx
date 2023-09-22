@@ -114,6 +114,11 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
           tooltip += `${param.marker} ${convertToTitleCase(param.seriesName)}: ${byteSize(param.value).toString()}<br />`;
         });
         return tooltip;
+      },
+      axisPointer: {
+        lineStyle: {
+          color: chartColors.hoverDottedLines
+        }
       }
     },
     grid: {

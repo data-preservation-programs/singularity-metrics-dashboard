@@ -53,6 +53,11 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
         tooltipText += moment(params[0].axisValue).format('MMM D, YYYY');
         return tooltipText;
       },
+      axisPointer: {
+        lineStyle: {
+          color: chartColors.hoverDottedLines
+        }
+      }
     },
     grid: {
       top: 25,
@@ -134,9 +139,11 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
         color: index === 0 ? chartColors.green : chartColors.orange,
       },
       emphasis: {
+        scale: 2.5,
         itemStyle: {
-          color: index === 0 ? chartColors.green : chartColors.orange
-        }
+          color: chartColors.tooltipColor,
+          borderColor: index === 0 ? chartColors.green : chartColors.orange,
+        },
       },
       lineStyle: {
         color: index === 0 ? chartColors.green : chartColors.orange,

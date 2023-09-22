@@ -52,6 +52,11 @@ const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
         const yValue = byteSize(params[0].value).toString();
         return `${yValue}<br/>${moment(xValue).format('MMM D, YYYY')}`;
       },
+      axisPointer: {
+        lineStyle: {
+          color: chartColors.hoverDottedLines
+        }
+      }
     },
     grid: {
       top: 25,
@@ -127,9 +132,13 @@ const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
       },
       itemStyle: {
         color: chartColors.orange,
-        emphasis: {
-          color: chartColors.orange,
-        },
+      },
+      emphasis: {
+        scale: 2.5,
+        itemStyle: {
+          color: chartColors.tooltipColor,
+          borderColor: chartColors.orange,
+        }
       },
       data: yData,
       lineStyle: {
