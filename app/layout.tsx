@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Dashboard - Singularity',
     description: 'This real-time dashboard tracks a variety of metrics pertaining to the Singularity project, data preparation, deals made, and filtering on a per-client basis.',
-    url: 'https://singularity-metrics-dashboard-phi.vercel.app',
+    url: 'https://stats.singularity.storage',
     siteName: 'Dashboard - Singularity',
     images: [
       {
-        url: 'https://singularity-metrics-dashboard-phi.vercel.app/images/open-graph.jpg',
+        url: 'https://stats.singularity.storage/images/open-graph.jpg',
         width: 1200,
         height: 630,
       },
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Dashboard - Singularity',
     description: 'This real-time dashboard tracks a variety of metrics pertaining to the Singularity project, data preparation, deals made, and filtering on a per-client basis.',
-    images: ['https://singularity-metrics-dashboard-phi.vercel.app/images/open-graph.jpg'],
+    images: ['https://stats.singularity.storage/images/open-graph.jpg'],
   },
 };
 
