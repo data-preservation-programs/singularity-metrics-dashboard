@@ -238,12 +238,10 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
 
   return (
     <>
-      <div className="grid">
+      <div className="grid-noBottom">
         <div className="col-12">
           <h2>Monthly Deals Sealed by Client</h2>
         </div>
-      </div>
-      <div className="grid">
         {isMobile ? (
           <div className="col-12">
             <div className="client-c">
@@ -262,7 +260,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
             </div>
           </div>
         ) : (
-          <div className="col-3_md-12">
+          <div className="col-3_lg-4_md-12">
             <div className="client-c">
               {monthlySealed && monthlySealed.keys.length ? <label>Select a client</label> : null }
               <div className="client-list">
@@ -294,7 +292,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
             </div>
           </div>
         )}
-        <div className="col-9_md-12">
+        <div className="col-9_lg-8_md-12">
           {monthlySealed && monthlySealed.barData.length ? (
             <ReactECharts
               key={chartKey}

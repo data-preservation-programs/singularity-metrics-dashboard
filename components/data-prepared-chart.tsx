@@ -81,6 +81,7 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
       axisLabel: {
         fontFamily: 'SuisseIntl',
         showMinLabel: false,
+        // showMaxLabel: false,
         hideOverlap: true,
         margin: 10,
         fontSize: 12,
