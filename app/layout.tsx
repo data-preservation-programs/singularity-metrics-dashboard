@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     description: 'This real-time dashboard tracks a variety of metrics pertaining to the Singularity project, data preparation, deals made, and filtering on a per-client basis.',
     images: [
       {
-        url: '/images/open-graph.png',
+        url: 'https://stats.singularity.storage/images/open-graph.png',
         width: 2000,
         height: 1050,
       },
