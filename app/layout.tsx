@@ -6,9 +6,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Dashboard - Singularity',
     description: 'This real-time dashboard tracks a variety of metrics pertaining to the Singularity project, data preparation, deals made, and filtering on a per-client basis.',
+    url: 'https://singularity-metrics-dashboard-phi.vercel.app',
+    siteName: 'Dashboard - Singularity',
     images: [
       {
-        url: 'https://singularity-metrics-dashboard-git-develop-protocol.vercel.app/images/open-graph.jpg',
+        url: 'https://singularity-metrics-dashboard-phi.vercel.app/images/open-graph.jpg',
         width: 1200,
         height: 630,
       },
@@ -33,7 +35,13 @@ export const metadata: Metadata = {
     },
   },
   themeColor: '#ffffff',
-  manifest: '/favicon/manifest.json'
+  manifest: '/favicon/manifest.json',
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dashboard - Singularity',
+    description: 'This real-time dashboard tracks a variety of metrics pertaining to the Singularity project, data preparation, deals made, and filtering on a per-client basis.',
+    images: ['https://singularity-metrics-dashboard-phi.vercel.app/images/open-graph.jpg'],
+  },
 };
 
 export default function RootLayout({
