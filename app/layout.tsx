@@ -1,11 +1,48 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Singularity Metrics Dashboard',
+  title: 'Dashboard - Singularity',
+  description: 'This real-time dashboard tracks a variety of metrics pertaining to the Singularity project, data preparation, deals made, and filtering on a per-client basis.',
   openGraph: {
-    images: ['/images/open-graph.png'],
+    title: 'Dashboard - Singularity',
+    description: 'This real-time dashboard tracks a variety of metrics pertaining to the Singularity project, data preparation, deals made, and filtering on a per-client basis.',
+    url: 'https://stats.singularity.storage',
+    siteName: 'Dashboard - Singularity',
+    images: [
+      {
+        url: 'https://stats.singularity.storage/images/open-graph.jpg',
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
   },
-}
+  icons: {
+    icon: '/favicon/favicon-32x32.png',
+    apple: [
+      { url: '/favicon/apple-icon-57x57.png', sizes: '57x57', rel: 'apple-touch-icon' },
+      { url: '/favicon/apple-icon-60x60.png', sizes: '60x60', rel: 'apple-touch-icon' },
+      { url: '/favicon/apple-icon-72x72.png', sizes: '72x72', rel: 'apple-touch-icon' },
+      { url: '/favicon/apple-icon-76x76.png', sizes: '76x76', rel: 'apple-touch-icon' },
+      { url: '/favicon/apple-icon-114x114.png', sizes: '114x114', rel: 'apple-touch-icon' },
+      { url: '/favicon/apple-icon-152x152.png', sizes: '152x152', rel: 'apple-touch-icon' },
+      { url: '/favicon/apple-icon-180x180.png', sizes: '180x180', rel: 'apple-touch-icon' },
+    ],
+    other: {
+      rel: 'apple-touch-icon',
+      url: '/favicon/apple-icon-180x180.png',
+    },
+  },
+  themeColor: '#ffffff',
+  manifest: '/favicon/manifest.json',
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dashboard - Singularity',
+    description: 'This real-time dashboard tracks a variety of metrics pertaining to the Singularity project, data preparation, deals made, and filtering on a per-client basis.',
+    images: ['https://stats.singularity.storage/images/open-graph.jpg'],
+  },
+};
 
 export default function RootLayout({
   children,
@@ -14,24 +51,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png" />
-        <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png" />
-        <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png" />
-        <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
-        <link rel="manifest" href="/favicon/manifest.json" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png" />
-        <meta name="theme-color" content="#ffffff" />
-      </head>
       <body>{children}</body>
     </html>
   )
