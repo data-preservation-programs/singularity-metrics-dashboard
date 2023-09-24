@@ -274,13 +274,13 @@ export default function Dashboard() {
     <BigNumbers overviewData={overviewData} />
 
     <div className="grid-noBottom">
-      {dailyPrepared ? <DataPreparedChart title="Daily Data Prepared" data={dailyPrepared} /> : null }
-      {totalPrepared ? <DataPreparedChart title="Total Data Prepared" data={totalPrepared} /> : null }
+      {dailyPrepared ? <DataPreparedChart title="Daily Prepared Data" data={dailyPrepared} /> : null }
+      {totalPrepared ? <DataPreparedChart title="Total Prepared Data" data={totalPrepared} /> : null }
     </div>
 
     <div className="grid-noBottom">
-      {dailySealed ? <DealSealedChart title="Daily Deal Sealed" data={dailySealed} /> : null }
-      {totalSealed ? <DealSealedChart title="Total Deal Sealed" data={totalSealed} /> : null }
+      {dailySealed ? <DealSealedChart title="Daily Sealed Deals" data={dailySealed} /> : null }
+      {totalSealed ? <DealSealedChart title="Total Sealed Deals" data={totalSealed} /> : null }
     </div>
 
     <div className="grid-noBottom">
