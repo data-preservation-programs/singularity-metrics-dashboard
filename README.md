@@ -1,6 +1,6 @@
 # Singularity Dashboard
 
-![Singularity metrics dashboard graph image](public/images/open-graph.png)
+![Singularity metrics dashboard graph image](public/images/open-graph.jpg)
 
 This repo contains a frontend dashboard for metrics on Singularity. The production app can be viewed at the following URL:
 
