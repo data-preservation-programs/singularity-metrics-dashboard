@@ -65,6 +65,14 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
             show: true,
             type: 'slider',
             fillerColor: chartColors.greenEnd,
+            borderColor: chartColors.gridLineColor,
+            borderRadius: 0,
+            handleStyle: {
+              opacity: 0.15
+            },
+            moveHandleStyle: {
+              opacity: 0.15
+            },
             selectedDataBackground: {
               lineStyle: {
                 color: chartColors.green
