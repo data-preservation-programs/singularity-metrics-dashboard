@@ -3,8 +3,11 @@ import ReactECharts, { EChartsOption } from 'echarts-for-react';
 import moment from 'moment';
 import byteSize from 'byte-size';
 import { MonthlySealed } from '@utils/interfaces';
-import { chartColors, colorList, colorEndList } from '@/utils/colors';
+import { chartColors } from '@/utils/colors';
 import Loader from '@/components/loader';
+
+const colorList = [chartColors.blue, chartColors.purple, chartColors.orange, chartColors.pink, chartColors.green];
+const colorEndList = ['rgba(126, 179, 212, 0.25)', 'rgba(154, 126, 212, 0.25)', 'rgba(255, 197, 130, 0.25)', 'rgba(212, 126, 157, 0.25)', 'rgba(167, 200, 137, 0.25)'];
 
 const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
   const [selectedClient, setSelectedClient] = useState('All');
