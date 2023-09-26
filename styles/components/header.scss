@@ -140,10 +140,3 @@
     }
   }
 }
-
-main {
-  padding-bottom: toRem(130);
-  @include medium {
-    padding-bottom: toRem(40);
-  }
-}
