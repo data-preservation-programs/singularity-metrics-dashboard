@@ -112,7 +112,7 @@ const DealSealedChart = ({ data, title }: DataPreparedChartProps) => {
         lineHeight: 27,
         color: chartColors.axisLabelTextColor,
         formatter: function (value:any) {
-          return byteSize(value, { precision: 0 }).toString();
+          return byteSize(value, { precision: 1 }).toString().replace('.0', '');
         },
       },
     },
