@@ -1,0 +1,150 @@
+#site-footer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: toRem(34) 0;
+  height: toRem(234);
+  z-index: 10;
+}
+
+.content {
+  position: relative;
+  width: 100%;
+}
+
+.site-footer-logo {
+  display: block;
+  padding: toRem(6) toRem(6) 0;
+  &:hover,
+  &:focus-visible {
+    img {
+      @include transitionDefault;
+      transform: scale(1.08);
+    }
+  }
+  &:focus-visible {
+    @include focusOutline
+  }
+  @include medium {
+    img {
+      width: toRem(95);
+    }
+  }
+}
+
+.authors {
+  @include small {
+    padding-left: 1rem;
+  }
+  .text {
+    @include formFieldText;
+    margin-bottom: toRem(28);
+    @include medium {
+      font-size: toRem(14);
+      a {
+        font-size: toRem(14);
+      }
+    }
+    @include mini {
+      margin-bottom: toRem(22);
+    }
+    a {
+      display: inline-block;
+      @include transitionDefault;
+      &:hover,
+      &:focus-visible {
+        transform: scale(1.1) translateX(-10px);
+      }
+      &:focus-visible {
+        @include focusOutline;
+      }
+    }
+    span {
+      &.green {
+        color: $sageGreen;
+        font-weight: 600;
+      }
+    }
+  }
+  .logos {
+    display: flex;
+    .button {
+      display: flex;
+      @include transitionDefault;
+      @include small {
+        align-items: flex-end;
+      }
+      &:first-child {
+        margin-right: toRem(43);
+        @include small {
+          margin-right: 10%;
+          width: 50%;
+        }
+        @include tiny {
+          width: 40%;
+        }
+      }
+      &:last-child {
+        @include small {
+          width: 40%;
+        }
+        @include tiny {
+          width: 32%;
+        }
+      }
+      &:hover,
+      &:focus-visible {
+        transform: scale(1.08);
+      }
+      &:focus-visible {
+        @include focusOutline;
+      }
+    }
+  }
+}
+
+.legal-wrapper {
+  @include small {
+    order: 1;
+  }
+}
+.legal {
+  @include medium {
+    display: flex;
+    justify-content: space-between;
+  }
+  @include small {
+    margin-top: toRem(39);
+  }
+}
+
+.footer-button {
+  position: relative;
+  padding: toRem(6) 0;
+  @include footerButton;
+  color: $sageGreen;
+  @include transitionDefault;
+  border-bottom: solid 1px rgba($sageGreen, 0);
+  white-space: nowrap;
+  &:not(:last-child) {
+    margin-right: toRem(47);
+    @include large {
+      margin-right: toRem(27);
+    }
+  }
+  @include medium {
+    margin-right: 0;
+    margin-left: auto;
+  }
+  @include small {
+    margin: 0;
+  }
+  &:hover {
+    border-bottom: solid 1px rgba($sageGreen, 1);
+  }
+  &:focus-visible {
+    @include focusOutline;
+  }
+}

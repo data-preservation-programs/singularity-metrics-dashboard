@@ -33,6 +33,28 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
   }, []);
 
   const options = {
+    legend: {
+      orient: 'vertical',
+      top: 24,
+      left: 75,
+      data: data.map(item => ({
+        name: item.id,
+        icon: 'square',
+        textStyle: {
+          color: chartColors.axisLabelTextColor,
+          fontSize: 14,
+          fontFamily: 'SuisseIntl',
+          fontWeight: 500,
+          lineHeight: 20,
+          padding: [0, 0, 0, -4],
+        },
+      })),
+      padding: 15,
+      borderRadius: 5,
+      borderColor: chartColors.gridLineColor,
+      backgroundColor: chartColors.legendBg,
+      itemGap: 5,
+    },
     tooltip: {
       trigger: 'axis',
       backgroundColor: chartColors.tooltipBgGreen,
@@ -112,7 +134,7 @@ const DataPreparedChart = ({ data, title }: DataPreparedChartProps) => {
         lineHeight: 27,
         color: chartColors.axisLabelTextColor,
         formatter: function (value:any) {
-          return byteSize(value, { precision: 0 }).toString();
+          return byteSize(value, { precision: 1 }).toString().replace('.0', '');
         },
       },
     },

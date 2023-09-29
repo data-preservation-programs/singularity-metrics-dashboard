@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function Header() {
   return <>
-    <header className="site-header">
+    <header id="site-header" className="site-header">
       <div className="grid-noBottom main-content">
         <div className="col-7">
           <a href="https://singularity.storage/" className="logo">

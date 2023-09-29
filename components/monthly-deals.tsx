@@ -3,8 +3,11 @@ import ReactECharts, { EChartsOption } from 'echarts-for-react';
 import moment from 'moment';
 import byteSize from 'byte-size';
 import { MonthlySealed } from '@utils/interfaces';
-import { chartColors, colorList, colorEndList } from '@/utils/colors';
+import { chartColors } from '@/utils/colors';
 import Loader from '@/components/loader';
+
+const colorList = [chartColors.blue, chartColors.purple, chartColors.orange, chartColors.pink, chartColors.green];
+const colorEndList = ['rgba(126, 179, 212, 0.425)', 'rgba(154, 126, 212, 0.425)', 'rgba(255, 197, 130, 0.425)', 'rgba(212, 126, 157, 0.425)', 'rgba(167, 200, 137, 0.425)'];
 
 const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
   const [selectedClient, setSelectedClient] = useState('All');
@@ -62,6 +65,14 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
             show: true,
             type: 'slider',
             fillerColor: chartColors.greenEnd,
+            borderColor: chartColors.gridLineColor,
+            borderRadius: 0,
+            handleStyle: {
+              opacity: 0.15
+            },
+            moveHandleStyle: {
+              opacity: 0.15
+            },
             selectedDataBackground: {
               lineStyle: {
                 color: chartColors.green
@@ -136,7 +147,7 @@ const MonthlyDeals = ({ monthlySealed }: {monthlySealed: MonthlySealed}) => {
             lineHeight: 27,
             color: chartColors.axisLabelTextColor,
             formatter: function (value:any) {
-              return byteSize(value, { precision: 0 }).toString();
+              return byteSize(value, { precision: 1 }).toString().replace('.0', '');
             },
           },
         },

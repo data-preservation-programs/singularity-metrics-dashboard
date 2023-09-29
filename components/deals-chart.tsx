@@ -67,7 +67,15 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
         type: 'slider',
         start: 92,
         end: 100,
+        borderColor: chartColors.gridLineColor,
+        borderRadius: 0,
         fillerColor: chartColors.greenEnd,
+        handleStyle: {
+          opacity: 0.15
+        },
+        moveHandleStyle: {
+          opacity: 0.15
+        },
         selectedDataBackground: {
           lineStyle: {
             color: chartColors.green
@@ -172,7 +180,7 @@ const DealsChart = ({ data, title }: DealsChartProps) => {
         lineHeight: 27,
         color: chartColors.axisLabelTextColor,
         formatter: function (value:any) {
-          return byteSize(value, { precision: 0 }).toString();
+          return byteSize(value, { precision: 1 }).toString().replace('.0', '');
         },
       },
     },
