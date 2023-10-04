@@ -5,8 +5,7 @@ import { mapToArray, toAccumulative } from '@/utils/utils';
 import { MonthlySealed } from '@utils/interfaces';
 import Loader from '@/components/loader';
 import BigNumbers from '@/components/big-numbers';
-import DataPreparedChart from '@/components/data-prepared-chart';
-import DealSealedChart from '@/components/deal-sealed-chart';
+import TwoDataChart from '@/components/two-data-chart';
 import DealsChart from '@/components/deals-chart';
 import MonthlyDeals from '@/components/monthly-deals';
 
@@ -270,17 +269,19 @@ export default function Dashboard() {
     },
   ];
 
+  console.log(dailySealed)
+
   return (<>
     <BigNumbers overviewData={overviewData} />
 
     <div className="grid-noBottom">
-      {dailyPrepared ? <DataPreparedChart title="Daily Data Prepared" data={dailyPrepared} /> : null }
-      {totalPrepared ? <DataPreparedChart title="Total Data Prepared" data={totalPrepared} /> : null }
+      {dailyPrepared ? <TwoDataChart title="Daily Data Prepared" data={dailyPrepared} theme="green" /> : null }
+      {totalPrepared ? <TwoDataChart title="Total Data Prepared" data={totalPrepared} theme="green" /> : null }
     </div>
 
     <div className="grid-noBottom">
-      {dailySealed ? <DealSealedChart title="Daily Deal Sealed" data={dailySealed} /> : null }
-      {totalSealed ? <DealSealedChart title="Total Deal Sealed" data={totalSealed} /> : null }
+      {dailySealed ? <TwoDataChart title="Daily Deal Sealed" data={dailySealed} theme="orange" /> : null }
+      {totalSealed ? <TwoDataChart title="Total Deal Sealed" data={totalSealed} theme="orange" /> : null }
     </div>
 
     <div className="grid-noBottom">
