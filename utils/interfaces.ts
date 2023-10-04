@@ -14,6 +14,7 @@ interface ChartData {
 export interface DataPreparedChartProps {
     data: { id: Version; data: { x: string; y: number }[] }[];
     title: string;
+    theme: string;
 }
 
 export interface DealsChartProps {
