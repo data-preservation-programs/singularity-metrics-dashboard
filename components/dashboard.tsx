@@ -280,8 +280,8 @@ export default function Dashboard() {
     </div>
 
     <div className="grid-noBottom">
-      {dailySealed ? <TwoDataChart title="Daily Deal Sealed" data={dailySealed} theme="orange" /> : null }
-      {totalSealed ? <TwoDataChart title="Total Deal Sealed" data={totalSealed} theme="orange" /> : null }
+      {dailySealed ? <TwoDataChart title="Daily Deal Sealed" data={dailySealed} theme="green" /> : null }
+      {totalSealed ? <TwoDataChart title="Total Deal Sealed" data={totalSealed} theme="green" /> : null }
     </div>
 
     <div className="grid-noBottom">
